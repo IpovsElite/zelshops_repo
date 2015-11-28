@@ -5,27 +5,33 @@
    "http://www.w3.org/TR/html4/loose.dtd">
 <%@ page isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
 <html>
+
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Справочник магазинов Зеленограда</title>
+<spring:url value="/resources/style.css" var="styleCSS"/>
+<spring:url value="/resources/zelshop.png" var="zelshopPNG"/>
+<link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet">
+
+
+<title>ZELshops.ru - только лучшие магазины Зеленограда</title>
 </head>
 <body>
+	<img src="<c:url value='/resources/images/zelshop.png'/>" class="logo"/>
     <div align="center">
         <form:form action="search" method="post" commandName="searchForm">
-            <table border="0">
-                <tr>
-                    <td colspan="2" align="center"><h2>Найти магазины в Зеленограде</h2></td>
-                </tr>
-                <tr>
-                    <td><form:input path="pattern" /></td>
-                    <td><input type="submit" value="Найти" /></td>
-                </tr>
-                <tr>
-                    <td>Сфера:</td>
-                    <td><form:select path="spec" items="${specList}" /></td>
-                </tr>
-            </table>
+            <div class="search-block">
+            	<form:input path="pattern" class="search"/><br/>
+            	<input type="submit" value="" class="search-icon"/>
+            	<div class="sel">
+            		<form:select path="spec" items="${specList}" />
+            	</div>
+            </div>
+            
+            
+            
         </form:form>
     </div>
       <div align="center">
