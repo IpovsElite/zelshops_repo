@@ -29,9 +29,6 @@
             		<form:select path="spec" items="${specList}" />
             	</div>
             </div>
-            
-            
-            
         </form:form>
     </div>
       <div align="center">
@@ -39,36 +36,23 @@
       		<c:if test="${!first}">
             <h1>Результаты</h1>
             </c:if>
+            
                 <c:forEach var="shop" items="${shopList}" varStatus="status">
-                <tr>
-                  <table border="0">
-                  <tr>
-                    <th>Название</th>
-                    <td>${shop.name}</td>
-                  </tr>
-                  <tr>
-                    <th>Адрес</th>
-                    <td>${shop.address}</td>
-                  </tr>
-                  <c:set var="site" value="${shop.site}"/>
-                  <c:if test="${site != 'нет'}">
-                  <tr>
-                    <th>Сайт</th>
-                    <td><a href="http://${shop.site}">${shop.site}</a></td>
-                  </tr>
-                  </c:if>
-                  <tr>
-                    <th>Телефон</th>
-                    <td>${shop.telephone}</td>
-                  </tr>
-                  <tr>
-                    <th>Сфера</th>
-                    <td>${shop.spec}</td>
-                  </tr>
-                </table>
-                </tr>
+                <div class="shops">
+                	<div class = "shop">${shop.name}
+                	<div class = "crop"><img src = "resources/images/5ka.jpg" class = "shop-image"></div>
+                	<div class = "info">
+                		<strong>Cайт:</strong><a href="http://${shop.site}">${shop.site}</a><br>
+						<strong>Адрес:</strong>${shop.address}<br>
+						<strong>Телефон:</strong>${shop.telephone}<br>
+						<strong>Сфера:</strong>${shop.spec}<br>
+					</div>	
+                	</div>
+            
+                	</div>
                 </c:forEach>              
-            </table>
+           
+        
         </div>
 </body>
 </html>
