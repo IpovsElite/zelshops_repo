@@ -19,6 +19,7 @@
 <title>ZELshops.ru - только лучшие магазины Зеленограда</title>
 </head>
 <body>
+	<h3><a href="login">Вход</a></h3>
 	<img src="<c:url value='/resources/images/zelshop.png'/>" class="logo"/>
     <div align="center">
         <form:form action="search" method="post" commandName="searchForm">
@@ -31,7 +32,6 @@
             </div>
         </form:form>
     </div>
-      <div align="center">
       		<c:set var="first" value="${isFirstVisit}"/>
       		<c:if test="${!first}">
             <h1>Результаты</h1>
@@ -39,7 +39,8 @@
             
                 <c:forEach var="shop" items="${shopList}" varStatus="status">
                 <div class="shops">
-                	<div class = "shop">${shop.name}
+                
+                <div class = "shop">${shop.name}
                 	<div class = "crop"><img src = "resources/images/5ka.jpg" class = "shop-image"></div>
                 	<div class = "info">
                 		<strong>Cайт:</strong><a href="http://${shop.site}">${shop.site}</a><br>
@@ -48,11 +49,11 @@
 						<strong>Сфера:</strong>${shop.spec}<br>
 					</div>	
                 	</div>
-            
+
                 	</div>
                 </c:forEach>              
            
         
-        </div>
+       
 </body>
 </html>
