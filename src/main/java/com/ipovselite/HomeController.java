@@ -27,7 +27,13 @@ public class HomeController implements Controller {
 	
 	private List<Shop> shopList=new ArrayList<Shop>();
 	private User currentUser;
-	
+	private String currentAccess;
+	public String getCurrentAccess() {
+		return currentAccess;
+	}
+	public void setCurrentAccess(String currentAccess) {
+		this.currentAccess = currentAccess;
+	}
 	public User getCurrentUser() {
 		return currentUser;
 	}
@@ -62,6 +68,8 @@ public class HomeController implements Controller {
 		specList.add("Спорт");
 		model.addAttribute("specList", specList);
 		model.addAttribute("isFirstVisit",isFirstVisit);
+		model.addAttribute("currentUser",currentUser);
+		model.addAttribute("currentAccess",currentAccess);
 		logger.debug("Added specList to the model.");
 		if (!shopList.isEmpty()) {
 			List<Shop> tempList=shopList;
@@ -97,11 +105,6 @@ public class HomeController implements Controller {
 		User user = new User();
 		model.addAttribute("loginForm", user);
 		String msg=request.getParameter("msg");
-		if (msg==null)
-			msg="";
-		else
-			if (msg=="fail")
-				msg="Неверный пользователь или пароль";
 		model.addAttribute("msg",msg);
 		return "login_form";
 		
@@ -112,15 +115,27 @@ public class HomeController implements Controller {
 		
 		if ((currentUser=userDAO.isValid(user.getUsername(),user.getPassword()))!=null) {
 			switch (currentUser.getAccess()) {
-			case Admin: return "admin";
-			case Moderator: return "moderator";
-			default: return "search_result1";
+			case Admin: currentAccess="Администратор";break;
+			case Moderator: currentAccess="Модератор";break;
+			default: break;
 			}
-		} 
+			return "redirect:search";
+		}
 		else
 			return "redirect:login?msg=fail";
 	}
-	
+	@RequestMapping(value="/logout",method={RequestMethod.GET})
+	public String logoutGet(Map<String,Object> model) {
+		
+		currentUser=null;
+		return "redirect:/search";
+	}
+	@RequestMapping(value="/logout",method={RequestMethod.POST})
+	public String logoutPost(Map<String,Object> model) {
+		
+		//currentUser=null;
+		return "redirect:/search";
+	}
 	public Class<? extends Annotation> annotationType() {
 		// TODO Auto-generated method stub
 		return null;
