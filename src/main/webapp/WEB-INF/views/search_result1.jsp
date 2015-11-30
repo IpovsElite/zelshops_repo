@@ -33,10 +33,6 @@
 			<tr>
 				<td><h3><a href="logout">Выход</a></h3></td>
 			</tr>
-			<tr>
-				<td colspan='2'><input name="submit" type="submit"
-					value="Войти" /></td>
-			</tr>
 		  </table>
 	</c:if>
 	
