@@ -33,6 +33,9 @@
 			<tr>
 				<td><h3><a href="logout">Выход</a></h3></td>
 			</tr>
+			<tr>
+				<td><h3><a href="addshop">Добавить магазин</a></h3></td>
+			</tr>
 		  </table>
 	</c:if>
 	
@@ -52,11 +55,11 @@
       		<c:if test="${!first}">
             <h1>Результаты</h1>
             </c:if>
-            
+            	<div class="shops">
                 <c:forEach var="shop" items="${shopList}" varStatus="status">
-                <div class="shops">
                 
-                <div class = "shop">${shop.name}
+                
+                <div class = "shop">${shop.name}<br>
                 	<div class = "crop"><img src = "resources/images/5ka.jpg" class = "shop-image"></div>
                 	<div class = "info">
                 		<strong>Cайт:</strong><a href="http://${shop.site}">${shop.site}</a><br>
@@ -64,11 +67,11 @@
 						<strong>Телефон:</strong>${shop.telephone}<br>
 						<strong>Сфера:</strong>${shop.spec}<br>
 					</div>	
-                	</div>
+                	
 
                 	</div>
                 </c:forEach>              
-           
+           </div>
         
        
 </body>
