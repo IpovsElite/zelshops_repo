@@ -10,7 +10,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet">
-<title>Insert title here</title>
+<title>ZELshops.ru - только лучшие магазины Зеленограда</title>
 </head>
 <body>
 	<img src="<c:url value='/resources/images/zelshop.png'/>" class="logo"/>
@@ -19,8 +19,8 @@
 
 		<h2>Вход в систему</h2>
 
-		<c:if test="${msg!=''}">
-			<div class="error">${msg}</div>
+		<c:if test="${not empty msg}">
+			<div class="error">Неудачная попытка входа</div>
 		</c:if>
 
 		<form:form commandName="loginForm"
@@ -37,7 +37,7 @@
 			</tr>
 			<tr>
 				<td colspan='2'><input name="submit" type="submit"
-					value="submit" /></td>
+					value="Войти" /></td>
 			</tr>
 		  </table>
 		</form:form>
