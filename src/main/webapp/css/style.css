@@ -4,13 +4,7 @@ body {
     background-repeat: repeat;
 }
 
-.toolbar{
-	position: absolute;
-	background: #000000;
-	height: 30px;
-	width: 100%;
-	color: #FFFFFF;
-}
+
 ul {
     list-style-type: none;
     margin: 0;
