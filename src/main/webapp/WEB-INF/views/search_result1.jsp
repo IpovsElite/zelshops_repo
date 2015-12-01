@@ -34,6 +34,12 @@
 				<td><h3><a href="logout">Выход</a></h3></td>
 			</tr>
 			<tr>
+				<td><h3><a href="newshops">Неактивные магазины</a></h3></td>
+			</tr>
+			<tr>
+				<td><h3><a href="checkshops">Магазины, требующие проверки</a></h3></td>
+			</tr>
+			<tr>
 				<td><h3><a href="addshop">Добавить магазин</a></h3></td>
 			</tr>
 		  </table>
@@ -54,18 +60,28 @@
       		<c:set var="first" value="${isFirstVisit}"/>
       		<c:if test="${!first}">
             <h1>Результаты</h1>
+            <c:if test="${empty shopList}">
+            <h1>Ничего не найдено</h1>
+            </c:if>
             </c:if>
             	<div class="shops">
                 <c:forEach var="shop" items="${shopList}" varStatus="status">
                 
                 
-                <div class = "shop">${shop.name}<br>
+                <div class = "shop"><b>${shop.name}</b>
                 	<div class = "crop"><img src = "resources/images/5ka.jpg" class = "shop-image"></div>
                 	<div class = "info">
                 		<strong>Cайт:</strong><a href="http://${shop.site}">${shop.site}</a><br>
 						<strong>Адрес:</strong>${shop.address}<br>
 						<strong>Телефон:</strong>${shop.telephone}<br>
 						<strong>Сфера:</strong>${shop.spec}<br>
+						<c:if test="${not empty currentAccess}">
+						<a href="updateshop?id=${shop.id}">Изменить</a>
+						<a href="deleteshop?id=${shop.id}">Удалить</a>
+						</c:if>
+						<c:if test="${empty currentAccess}">
+						<a href="checkshop?id=${shop.id}">Информация не верна</a>
+						</c:if>
 					</div>	
                 	
 

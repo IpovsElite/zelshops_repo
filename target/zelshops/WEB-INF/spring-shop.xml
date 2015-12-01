@@ -6,5 +6,8 @@
 	<bean id="shopDAOImpl" class="com.ipovselite.ShopDAOImpl">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
+	<bean id="userDAOImpl" class="com.ipovselite.UserDAOImpl">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
 
 </beans>

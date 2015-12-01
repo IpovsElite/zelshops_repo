@@ -13,6 +13,7 @@
 <title>ZELshops.ru - только лучшие магазины Зеленограда</title>
 </head>
 <body>
+	<h3><a href="search">На главную</a></h3>
 	<img src="<c:url value='/resources/images/zelshop.png'/>" class="logo"/>
 
 	<div class="login-box">
