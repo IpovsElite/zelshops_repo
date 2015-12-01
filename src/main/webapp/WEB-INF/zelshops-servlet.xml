@@ -9,8 +9,10 @@
     <context:component-scan base-package="com.ipovselite" />
  
     <mvc:annotation-driven />
+    <mvc:resources mapping="/resources/**" location="/" />
     <import resource="spring-datasource.xml"/>
     <import resource="spring-shop.xml"/>
+    
     <bean
         class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix">

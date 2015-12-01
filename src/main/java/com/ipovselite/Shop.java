@@ -7,6 +7,7 @@ public class Shop {
 	private String site;
 	private String telephone;
 	private String spec;
+	private int status;
 	public int getId() {
 		return id;
 	}
@@ -42,5 +43,11 @@ public class Shop {
 	}
 	public void setSpec(String spec) {
 		this.spec = spec;
+	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
 	}
 }

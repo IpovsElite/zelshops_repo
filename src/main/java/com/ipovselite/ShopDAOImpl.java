@@ -22,14 +22,14 @@ public class ShopDAOImpl implements ShopDAO {
 	}
 	public Shop get(int id) {
 		// TODO Auto-generated method stub
-		String sql = "SELECT * FROM shopdb.shop WHERE shop_id="+id+";";
+		String sql = "SELECT * FROM db.shop WHERE id="+id+";";
 		return jdbcTemplate.query(sql, new ResultSetExtractor<Shop>() {
 
 			public Shop extractData(ResultSet rs) throws SQLException, DataAccessException {
 				// TODO Auto-generated method stub
 				Shop s = new Shop();
 				if (rs.next()) {
-					s.setId(rs.getInt("shop_id"));
+					s.setId(rs.getInt("id"));
 					s.setName(rs.getString("name"));					
 					s.setAddress(rs.getString("address"));
 					s.setSite(rs.getString("site"));
@@ -45,7 +45,7 @@ public class ShopDAOImpl implements ShopDAO {
 
 	public List<Shop> search(SearchParameters sp) {
 		// TODO Auto-generated method stub
-		String sql="SELECT * FROM shopdb.shop WHERE";
+		String sql="SELECT * FROM db.shop WHERE STATUS in (2,3) AND ";
 		if (sp.getPattern()!=null || !sp.getPattern().equals("")) {
 			sql+=" (name like '%"+sp.getPattern()+"%' or address like '%"+sp.getPattern()+"%')";
 			if (sp.getSpec()!=null || !sp.getSpec().equals(""))
@@ -59,7 +59,7 @@ public class ShopDAOImpl implements ShopDAO {
 			public Shop mapRow(ResultSet rs, int rowNum) throws SQLException {
 				// TODO Auto-generated method stub
 				Shop s = new Shop();
-				s.setId(rs.getInt("shop_id"));
+				s.setId(rs.getInt("id"));
 				s.setName(rs.getString("name"));					
 				s.setAddress(rs.getString("address"));
 				s.setSite(rs.getString("site"));
@@ -72,13 +72,12 @@ public class ShopDAOImpl implements ShopDAO {
 	}
 	public List<Shop> getAllShops() {
 		// TODO Auto-generated method stub
-		String sql="SELECT * FROM shopdb.shop;";
+		String sql="SELECT * FROM db.shop;";
 		List<Shop> listShop=jdbcTemplate.query(sql, new RowMapper<Shop>() {
-
 			public Shop mapRow(ResultSet rs, int rowNum) throws SQLException {
 				// TODO Auto-generated method stub
 				Shop c = new Shop();
-				c.setId(rs.getInt("shop_id"));
+				c.setId(rs.getInt("id"));
 				c.setName(rs.getString("name"));
 				c.setSite(rs.getString("site"));
 				c.setAddress(rs.getString("address"));
@@ -89,5 +88,39 @@ public class ShopDAOImpl implements ShopDAO {
 		});
 		return listShop;
 	}
+	public void addShop(Shop shop) {
+		// TODO Auto-generated method stub
+		String sql="INSERT INTO db.shop (name,site,address,telephone,spec,status) VALUES (?,?,?,?,?,?);";
+		jdbcTemplate.update(sql,shop.getName(),shop.getSite(),shop.getAddress(),shop.getTelephone(),shop.getSpec(),"0");
+	}
+	public void updateColumn(String col,Object val, int id) {
+		// TODO Auto-generated method stub
+		String sql = "UPDATE db.shop SET " + col + " = '" + val.toString() + "' WHERE id=" + id + ";";
+		jdbcTemplate.update(sql);
+	}
+	public List<Shop> findByStatus(int status) {
+		// TODO Auto-generated method stub
+		String sql = "SELECT * FROM db.shop WHERE STATUS = " + status + ";";
+		List<Shop> listShop=jdbcTemplate.query(sql, new RowMapper<Shop>() {
+			public Shop mapRow(ResultSet rs, int rowNum) throws SQLException {
+				// TODO Auto-generated method stub
+				Shop c = new Shop();
+				c.setId(rs.getInt("id"));
+				c.setName(rs.getString("name"));
+				c.setSite(rs.getString("site"));
+				c.setAddress(rs.getString("address"));
+				c.setTelephone(rs.getString("telephone"));
+				c.setSpec(rs.getString("spec"));
+				return c;	
+			}
+		});
+		return listShop;
+	}
+	public void delete(int id) {
+		// TODO Auto-generated method stub
+		String sql = "DELETE FROM db.shop WHERE id = " + id + ";";
+		jdbcTemplate.update(sql);
+	}
+	
 
 }
