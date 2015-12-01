@@ -13,7 +13,21 @@
 <title>ZELshops.ru - только лучшие магазины Зеленограда</title>
 </head>
 <body>
-	<h3><a href="search">На главную</a></h3>
+	<ul>
+		<ri>
+			<c:if test="${empty currentUser}">
+			<a href="login">Вход</a>
+			</c:if>
+		</ri>
+		<c:if test="${not empty currentUser}">
+		
+		
+		<ri><a href="logout">Выход</a></ri>
+		<ri><t>${currentAccess}</t></ri>
+		<ri><t>${currentUser.username}</t></ri>
+		</c:if>
+		<li><a href="search">На главную</a></li>
+	</ul>
 	<img src="<c:url value='/resources/images/zelshop.png'/>" class="logo"/>
 
 	<div class="login-box">

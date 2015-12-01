@@ -1,64 +1,9 @@
 body {
-	font-family: Calibri;
+	font-family: Courier;
 	text-align: center;
+	background-image: url('grid.png');
     background-repeat: repeat;
-}
-
-.toolbar{
-	position: absolute;
-	background: #000000;
-	height: 30px;
-	width: 100%;
-	color: #FFFFFF;
-}
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #111;
-}
-
-li {
-    float: left;
-}
-ri {
-	float: right;
-}
-ri t {
-	display: inline-block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-li a {
-   display: inline-block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-ri a {
-	display: inline-block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-li a:hover {
-    background-color: #009b00;
-}
-ri a:hover {
-    background-color: #009b00;
-}
-
-
-.login-form{
-	margin: 4px 11px;
-	text-align: right;
+	color: #000000;
 }
 .login-box {
 	width: 300px;
@@ -81,7 +26,7 @@ ri a:hover {
 .logo{
 	height: 92px;
 	margin-bottom: 10px;
-	margin-top: 7%;
+	margin-top: 10%;
 }
 
 .search{
@@ -114,7 +59,7 @@ ri a:hover {
 	margin: 0 20%;
 }
 
-.search-form{
+form{
 	margin-bottom: 20px;
 }
 
@@ -123,32 +68,48 @@ ri a:hover {
 	width: 60%;
 	margin: 0 20%;
 	padding: 0 1%;
+	//list-style-position:inside;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+	-webkit-column-count:3;
+	-moz-column-count:3;
+	column-count:3;
+	-webkit-column-gap:20px;
+	-moz-column-gap:20px;
+	column-gap:20px;
+	//-webkit-column-width:100px;
+	//-moz-column-count:100px;
+	//column-count:100px;
 }
 
 .shop{
+	background-color: white;
 	position: relative;
 	display: inline-block;
-	border: 1px solid lightgray;
-	width: 31%;
-	height: 250px;
+	border: 1px solid white;
+	border-radius: 5px;
+	width: 300px;
+	height: 300px;
 	margin: 0.5%;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+
+	//min-height: 130px;
 }
 
 .shop-image{
 	width: 80%;
+	margin: 0;
+	display:block;
+	left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+	border-radius: 5px;
 }
 
 .crop{
-	height: 150px;
-	overflow: hidden;
-	vertical-align: middle;
-	margin: 5%;
 }
 
 .shop:hover{
@@ -166,9 +127,10 @@ ri a:hover {
 
 .info{
 	position: absolute;
-	top: 10%;
+	top: 5%;
 	left: 0;
-	padding: 10%;
+	//bottom:0;
+	padding: 5%;
 	display: none;
 	color: #000000;
 	text-align: left;
