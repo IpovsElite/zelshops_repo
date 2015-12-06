@@ -33,7 +33,7 @@
 		<ri><t>${currentAccess}</t></ri>
 		<ri><t>${currentUser.username}</t></ri>
 		</c:if>
-		<c:if test="${currentAccess == 'Администратор'}">
+		<c:if test="${currentAccess == 'Администратор' and not empty currentUser }">
 		<li><a href="addshop">Добавить магазин</a></li>
 		<li><a href="newshops">Новые магазины</a></li>
 		<li><a href="checkshops">Магазины, требующие проверки</a></li>
@@ -74,11 +74,11 @@
 						<strong>Телефон:</strong>${shop.telephone}<br>
 						</c:if>
 						<strong>Сфера:</strong>${shop.spec}<br>
-						<c:if test="${not empty currentAccess}">
+						<c:if test="${currentAccess == 'Администратор' and not empty currentUser}">
 						<a href="updateshop?id=${shop.id}">Изменить</a>
 						<a href="deleteshop?id=${shop.id}">Удалить</a>
 						</c:if>
-						<c:if test="${empty currentAccess}">
+						<c:if test="${empty currentUser}">
 						<a href="checkshop?id=${shop.id}">Информация не верна</a>
 						</c:if>
 					</div>	

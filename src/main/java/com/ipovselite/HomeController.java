@@ -236,8 +236,8 @@ public class HomeController implements Controller {
 	@RequestMapping(value="/updateshop",method={RequestMethod.POST})
 	public String updateShopPost(@ModelAttribute("updateShopForm") Shop shop,Map<String,Object> model,HttpSession session) {
 		Integer id= (Integer)session.getAttribute("changeShopId");
-		if (shop.getName().equals("") || shop.getSite().equals("") || shop.getSite().equals("") || shop.getSite().equals(""))
-			return "redirect:updateshop?id="+id.intValue()+"msg=fail";
+		if (shop.getName().equals("") || shop.getSite().equals("") || shop.getAddress().equals("") || shop.getTelephone().equals(""))
+			return "redirect:updateshop?id="+id.intValue()+"&msg=fail";
 		//currentUser=null;
 		System.out.println("----------------------SHOPID IN UPDATESHOPPOST: "+shop.getId());
 		if (!shop.getName().equals(""))
