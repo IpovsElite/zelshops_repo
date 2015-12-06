@@ -60,7 +60,9 @@ public class HomeController implements Controller {
 	
 	@RequestMapping(value="/search",method={RequestMethod.GET})
 	public String home(ModelMap model,HttpSession session) {
-		SearchParameters searchForm = new SearchParameters();
+		SearchParameters searchForm = (SearchParameters) session.getAttribute("searchParam");
+		if (searchForm==null)
+			searchForm=new SearchParameters();
 		model.addAttribute("searchForm", searchForm);
 		model.addAttribute("specList", SpecList);
 		model.addAttribute("isFirstVisit",session.getAttribute("isFirstVisit"));
@@ -92,6 +94,7 @@ public class HomeController implements Controller {
 				logger.debug("Name: "+s.getName());
 			}
 			session.setAttribute("shopList", shopList);
+			session.setAttribute("searchParam", searchParam);
 		}
 		else
 			logger.error("searchParam is null!");
