@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("/")
 public class HomeController implements Controller {
+	public static String[] SpecList={"Еда","Здоровье","Одежда","Электроника","Спорт"};
 	@Autowired
 	private ShopDAO shopDAO;
 	
@@ -61,35 +62,7 @@ public class HomeController implements Controller {
 	public String home(ModelMap model,HttpSession session) {
 		SearchParameters searchForm = new SearchParameters();
 		model.addAttribute("searchForm", searchForm);
-		List<String> specList = new ArrayList<String>();
-		specList.add("Еда");
-		specList.add("Здоровье");
-		specList.add("Одежда");
-		specList.add("Электроника");
-		specList.add("Спорт");
-		model.addAttribute("specList", specList);
-		java.util.Enumeration<String> sessEnum = session
-
-				.getAttributeNames();
-				  while (sessEnum.hasMoreElements()) {
-
-				String s = sessEnum.nextElement();
-
-				System.out.print(s);
-
-				System.out.println("==" + session.getAttribute(s));
-
-				  }
-				
-
-		if (session.getAttribute("isFirstVisit")==null)
-			session.setAttribute("isFirstVisit",true);
-		if (session.getAttribute("currentUser")==null)
-			session.setAttribute("currentUser",null);
-		if (session.getAttribute("currentAccess")==null)
-			session.setAttribute("currentAccess",null);
-		if (session.getAttribute("shopList")==null)
-			session.setAttribute("shopList",null); 
+		model.addAttribute("specList", SpecList);
 		model.addAttribute("isFirstVisit",session.getAttribute("isFirstVisit"));
 		model.addAttribute("currentUser",session.getAttribute("currentUser"));
 		model.addAttribute("currentAccess",session.getAttribute("currentAccess"));
@@ -178,13 +151,7 @@ public class HomeController implements Controller {
 	public String addShopGet(HttpServletRequest request, HttpSession session, ModelMap model) {
 		Shop shop = new Shop();
 		String msg = request.getParameter("msg");
-		List<String> specList = new ArrayList<String>();
-		specList.add("Еда");
-		specList.add("Здоровье");
-		specList.add("Одежда");
-		specList.add("Электроника");
-		specList.add("Спорт");
-		model.addAttribute("specList", specList);
+		model.addAttribute("specList", SpecList);
 		model.addAttribute("msg", msg);
 		model.addAttribute("shopForm", shop);
 		session.setAttribute("shopList", null);
@@ -247,15 +214,8 @@ public class HomeController implements Controller {
 		System.out.println("----------------------SHOPID IN UPDATESHOPGET: "+shop.getId());
 		String msg = request.getParameter("msg");
 		model.addAttribute("updateShopForm", shop);
-		List<String> specList = new ArrayList<String>();
-		specList.add("Еда");
-		specList.add("Здоровье");
-		specList.add("Одежда");
-		specList.add("Электроника");
-		specList.add("Спорт");
-		model.addAttribute("specList", specList);
+		model.addAttribute("specList", SpecList);
 		model.addAttribute("msg", msg);
-		
 		session.setAttribute("changeShopId", shop.getId());
 		session.setAttribute("shopList", null);
 		session.setAttribute("isFirstVisit", true);

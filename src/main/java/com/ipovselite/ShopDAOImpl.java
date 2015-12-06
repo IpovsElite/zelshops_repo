@@ -53,7 +53,7 @@ public class ShopDAOImpl implements ShopDAO {
 		}
 		if (sp.getSpec()!=null || !sp.getSpec().equals(""))
 			sql+=" spec='"+sp.getSpec()+"'";
-		sql+=";";
+		sql+=" ORDER BY ID DESC;";
 		List<Shop> listShop=jdbcTemplate.query(sql, new RowMapper<Shop>() {
 
 			public Shop mapRow(ResultSet rs, int rowNum) throws SQLException {

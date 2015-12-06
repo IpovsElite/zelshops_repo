@@ -19,32 +19,26 @@
 <title>ZELshops.ru - только лучшие магазины Зеленограда</title>
 </head>
 <body>
-	<c:if test="${empty currentUser}">
-	<h3><a href="login">Вход</a></h3>
-	</c:if>
-	<c:if test="${not empty currentUser}">
-	  <table>
-			<tr>
-				<td>Пользователь:</td>
-				<td>${currentUser.username}</td>
-				<td>Роль:</td>
-				<td>${currentAccess}</td>
-			</tr>
-			<tr>
-				<td><h3><a href="logout">Выход</a></h3></td>
-			</tr>
-			<tr>
-				<td><h3><a href="newshops">Неактивные магазины</a></h3></td>
-			</tr>
-			<tr>
-				<td><h3><a href="checkshops">Магазины, требующие проверки</a></h3></td>
-			</tr>
-			<tr>
-				<td><h3><a href="addshop">Добавить магазин</a></h3></td>
-			</tr>
-		  </table>
-	</c:if>
 	
+	<ul>
+		<ri>
+			<c:if test="${empty currentUser}">
+			<a href="login">Вход</a>
+			</c:if>
+		</ri>
+		<c:if test="${not empty currentUser}">
+		
+		
+		<ri><a href="logout">Выход</a></ri>
+		<ri><t>${currentAccess}</t></ri>
+		<ri><t>${currentUser.username}</t></ri>
+		</c:if>
+		<c:if test="${currentAccess == 'Администратор'}">
+		<li><a href="addshop">Добавить магазин</a></li>
+		<li><a href="checkshops">Магазины, требующие проверки</a></li>
+		<li><a href="newshops">Неактивные магазины</a></li>
+		</c:if>
+	</ul>	
 	<img src="<c:url value='/resources/images/zelshop.png'/>" class="logo"/>
     <div align="center">
         <form:form action="search" method="post" commandName="searchForm">
@@ -71,9 +65,13 @@
                 <div class = "shop"><b>${shop.name}</b>
                 	<div class = "crop"><img src = "resources/images/5ka.jpg" class = "shop-image"></div>
                 	<div class = "info">
+                		<c:if test="${shop.site != 'нет'}">
                 		<strong>Cайт:</strong><a href="http://${shop.site}">${shop.site}</a><br>
+                		</c:if>
 						<strong>Адрес:</strong>${shop.address}<br>
+						<c:if test="${shop.telephone != 'нет'}">
 						<strong>Телефон:</strong>${shop.telephone}<br>
+						</c:if>
 						<strong>Сфера:</strong>${shop.spec}<br>
 						<c:if test="${not empty currentAccess}">
 						<a href="updateshop?id=${shop.id}">Изменить</a>
