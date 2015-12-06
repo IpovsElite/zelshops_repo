@@ -35,8 +35,9 @@
 		</c:if>
 		<c:if test="${currentAccess == 'Администратор'}">
 		<li><a href="addshop">Добавить магазин</a></li>
+		<li><a href="newshops">Новые магазины</a></li>
 		<li><a href="checkshops">Магазины, требующие проверки</a></li>
-		<li><a href="newshops">Неактивные магазины</a></li>
+		<li><a href="inactiveshops">Неактивные магазины</a></li>
 		</c:if>
 	</ul>	
 	<img src="<c:url value='/resources/images/zelshop.png'/>" class="logo"/>

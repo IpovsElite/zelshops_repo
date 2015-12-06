@@ -100,7 +100,7 @@ public class ShopDAOImpl implements ShopDAO {
 	}
 	public List<Shop> findByStatus(int status) {
 		// TODO Auto-generated method stub
-		String sql = "SELECT * FROM db.shop WHERE STATUS = " + status + ";";
+		String sql = "SELECT * FROM db.shop WHERE STATUS = " + status + " ORDER BY ID DESC;";
 		List<Shop> listShop=jdbcTemplate.query(sql, new RowMapper<Shop>() {
 			public Shop mapRow(ResultSet rs, int rowNum) throws SQLException {
 				// TODO Auto-generated method stub

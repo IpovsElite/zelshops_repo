@@ -175,6 +175,15 @@ public class HomeController implements Controller {
 		session.setAttribute("isFirstVisit", true);
 		return "new_shops";
 	}
+	@RequestMapping(value="/inactiveshops",method={RequestMethod.GET})
+	public String inactiveShopsGet(HttpServletRequest request, HttpSession session, ModelMap model) {
+		
+		List<Shop> shopList=shopDAO.findByStatus(1);
+		model.addAttribute("shopList", shopList);
+		session.setAttribute("shopList", null);
+		session.setAttribute("isFirstVisit", true);
+		return "inactive_shops";
+	}
 	@RequestMapping(value="/makeactive",method={RequestMethod.GET})
 	public String makeActive(HttpServletRequest request, HttpSession session, ModelMap model) {
 		shopDAO.updateColumn("status", 3,new Integer(request.getParameter("id")));
@@ -185,7 +194,7 @@ public class HomeController implements Controller {
 	}
 	@RequestMapping(value="/makeinactive",method={RequestMethod.GET})
 	public String makeInactive(HttpServletRequest request, HttpSession session, ModelMap model) {
-		shopDAO.updateColumn("status", 0,new Integer(request.getParameter("id")));
+		shopDAO.updateColumn("status", 1,new Integer(request.getParameter("id")));
 		session.setAttribute("shopList", null);
 		session.setAttribute("isFirstVisit", true);
 		return "redirect:search";
