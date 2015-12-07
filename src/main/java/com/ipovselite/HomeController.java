@@ -236,7 +236,7 @@ public class HomeController implements Controller {
 	@RequestMapping(value="/updateshop",method={RequestMethod.POST})
 	public String updateShopPost(@ModelAttribute("updateShopForm") Shop shop,Map<String,Object> model,HttpSession session) {
 		Integer id= (Integer)session.getAttribute("changeShopId");
-		if (shop.getName().equals("") || shop.getSite().equals("") || shop.getAddress().equals("") || shop.getTelephone().equals(""))
+		if (shop.getName().equals("") || shop.getSite().equals("") || shop.getAddress().equals("") || shop.getTelephone().equals("") )
 			return "redirect:updateshop?id="+id.intValue()+"&msg=fail";
 		//currentUser=null;
 		System.out.println("----------------------SHOPID IN UPDATESHOPPOST: "+shop.getId());
@@ -257,6 +257,13 @@ public class HomeController implements Controller {
 		session.setAttribute("shopList", null);
 		session.setAttribute("isFirstVisit", true);
 		return "redirect:search";
+		
+	}
+	@RequestMapping(value="/currentloc",method={RequestMethod.GET})
+	public String currentLocGet(HttpServletRequest request, HttpSession session, ModelMap model) {
+		session.setAttribute("isFirstVisit", true);
+		session.setAttribute("shopList", null);
+		return "current_loc";
 		
 	}
 	public Class<? extends Annotation> annotationType() {

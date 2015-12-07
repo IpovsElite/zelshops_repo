@@ -39,7 +39,8 @@
 		<li><a href="checkshops">Магазины, требующие проверки</a></li>
 		<li><a href="inactiveshops">Неактивные магазины</a></li>
 		</c:if>
-	</ul>	
+	</ul>
+	<ul><ri><a href="currentloc">Ваше местоположение</a></ri></ul>	
 	<img src="<c:url value='/resources/images/zelshop.png'/>" class="logo"/>
     <div align="center">
         <form:form action="search" method="post" commandName="searchForm">
