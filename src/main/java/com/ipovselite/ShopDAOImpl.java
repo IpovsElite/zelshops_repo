@@ -35,6 +35,12 @@ public class ShopDAOImpl implements ShopDAO {
 					s.setSite(rs.getString("site"));
 					s.setTelephone(rs.getString("telephone"));
 					s.setSpec(rs.getString("spec"));
+					s.setStatus(rs.getInt("status"));
+					s.setDescription(rs.getString("description"));
+					s.setRating(rs.getFloat("rating"));
+					s.setVoters(rs.getInt("voters"));
+					s.setLat(rs.getDouble("lat"));
+					s.setLng(rs.getDouble("lng"));
 					return s;
 				}
 				return null;
@@ -46,12 +52,12 @@ public class ShopDAOImpl implements ShopDAO {
 	public List<Shop> search(SearchParameters sp) {
 		// TODO Auto-generated method stub
 		String sql="SELECT * FROM db.shop WHERE STATUS in (2,3) AND ";
-		if (sp.getPattern()!=null || !sp.getPattern().equals("")) {
-			sql+=" (name like '%"+sp.getPattern()+"%' or address like '%"+sp.getPattern()+"%')";
-			if (sp.getSpec()!=null || !sp.getSpec().equals(""))
+		if (sp.getPattern()!=null && !sp.getPattern().equals("") && !sp.getPattern().equals(" ") ) {
+			sql+=" (name like '%"+sp.getPattern()+"%' or address like '%"+sp.getPattern()+"%' or description like '%" + sp.getPattern()+"%')";
+			if (sp.getSpec()!=null && !sp.getSpec().equals(""))
 				sql+=" AND";
 		}
-		if (sp.getSpec()!=null || !sp.getSpec().equals(""))
+		if (sp.getSpec()!=null && !sp.getSpec().equals(""))
 			sql+=" spec='"+sp.getSpec()+"'";
 		sql+=" ORDER BY ID DESC;";
 		List<Shop> listShop=jdbcTemplate.query(sql, new RowMapper<Shop>() {
@@ -65,6 +71,12 @@ public class ShopDAOImpl implements ShopDAO {
 				s.setSite(rs.getString("site"));
 				s.setTelephone(rs.getString("telephone"));
 				s.setSpec(rs.getString("spec"));
+				s.setStatus(rs.getInt("status"));
+				s.setDescription(rs.getString("description"));
+				s.setRating(rs.getFloat("rating"));
+				s.setVoters(rs.getInt("voters"));
+				s.setLat(rs.getDouble("lat"));
+				s.setLng(rs.getDouble("lng"));
 				return s;	
 			}
 		});
@@ -76,22 +88,28 @@ public class ShopDAOImpl implements ShopDAO {
 		List<Shop> listShop=jdbcTemplate.query(sql, new RowMapper<Shop>() {
 			public Shop mapRow(ResultSet rs, int rowNum) throws SQLException {
 				// TODO Auto-generated method stub
-				Shop c = new Shop();
-				c.setId(rs.getInt("id"));
-				c.setName(rs.getString("name"));
-				c.setSite(rs.getString("site"));
-				c.setAddress(rs.getString("address"));
-				c.setTelephone(rs.getString("telephone"));
-				c.setSpec(rs.getString("spec"));
-				return c;	
+				Shop s = new Shop();
+				s.setId(rs.getInt("id"));
+				s.setName(rs.getString("name"));
+				s.setSite(rs.getString("site"));
+				s.setAddress(rs.getString("address"));
+				s.setTelephone(rs.getString("telephone"));
+				s.setSpec(rs.getString("spec"));
+				s.setStatus(rs.getInt("status"));
+				s.setDescription(rs.getString("description"));
+				s.setRating(rs.getFloat("rating"));
+				s.setVoters(rs.getInt("voters"));
+				s.setLat(rs.getDouble("lat"));
+				s.setLng(rs.getDouble("lng"));
+				return s;	
 			}
 		});
 		return listShop;
 	}
 	public void addShop(Shop shop) {
 		// TODO Auto-generated method stub
-		String sql="INSERT INTO db.shop (name,site,address,telephone,spec,status) VALUES (?,?,?,?,?,?);";
-		jdbcTemplate.update(sql,shop.getName(),shop.getSite(),shop.getAddress(),shop.getTelephone(),shop.getSpec(),"0");
+		String sql="INSERT INTO db.shop (name,site,address,telephone,spec,status,description,lat,lng) VALUES (?,?,?,?,?,?,?,?,?);";
+		jdbcTemplate.update(sql,shop.getName(),shop.getSite(),shop.getAddress(),shop.getTelephone(),shop.getSpec(),"0",shop.getDescription(),shop.getLat(),shop.getLng());
 	}
 	public void updateColumn(String col,Object val, int id) {
 		// TODO Auto-generated method stub
@@ -104,14 +122,20 @@ public class ShopDAOImpl implements ShopDAO {
 		List<Shop> listShop=jdbcTemplate.query(sql, new RowMapper<Shop>() {
 			public Shop mapRow(ResultSet rs, int rowNum) throws SQLException {
 				// TODO Auto-generated method stub
-				Shop c = new Shop();
-				c.setId(rs.getInt("id"));
-				c.setName(rs.getString("name"));
-				c.setSite(rs.getString("site"));
-				c.setAddress(rs.getString("address"));
-				c.setTelephone(rs.getString("telephone"));
-				c.setSpec(rs.getString("spec"));
-				return c;	
+				Shop s = new Shop();
+				s.setId(rs.getInt("id"));
+				s.setName(rs.getString("name"));
+				s.setSite(rs.getString("site"));
+				s.setAddress(rs.getString("address"));
+				s.setTelephone(rs.getString("telephone"));
+				s.setSpec(rs.getString("spec"));
+				s.setStatus(rs.getInt("status"));
+				s.setDescription(rs.getString("description"));
+				s.setRating(rs.getFloat("rating"));
+				s.setVoters(rs.getInt("voters"));
+				s.setLat(rs.getDouble("lat"));
+				s.setLng(rs.getDouble("lng"));
+				return s;	
 			}
 		});
 		return listShop;
