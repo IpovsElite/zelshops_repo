@@ -93,6 +93,10 @@ public class HomeController implements Controller {
 			for (Shop s : shopList) {
 				logger.debug("Name: "+s.getName());
 			}
+			if (searchParam.getIsGeoEnabled()) {
+				logger.debug("GEOTAGGING ON: "+searchParam.getCurrentLat()+" "+searchParam.getCurrentLng());
+				shopList=Geotagging.GetNearestShops(searchParam.getCurrentLat(), searchParam.getCurrentLng(), 1, shopList);
+			}
 			session.setAttribute("shopList", shopList);
 			session.setAttribute("searchParam", searchParam);
 		}
@@ -249,6 +253,8 @@ public class HomeController implements Controller {
 		if (!shop.getTelephone().equals("") )
 			shopDAO.updateColumn("telephone", shop.getTelephone(), id.intValue());
 		shopDAO.updateColumn("spec", shop.getSpec(), id.intValue());
+		shopDAO.updateColumn("lat", shop.getLat(), id.intValue());
+		shopDAO.updateColumn("lng", shop.getLng(), id.intValue());
 		return "redirect:/search";
 	}
 	@RequestMapping(value="/checkshop",method={RequestMethod.GET})
