@@ -103,9 +103,11 @@ google.maps.event.addDomListener(window, 'load', initialize);
             	</div>
             	<form:input path="currentLat" type="hidden" id="curLat"/>
             	<form:input path="currentLng" type="hidden" id="curLng"/>
-            	<form:radiobutton path="isGeoEnabled" value="true"/>
-            
-            	<form:radiobutton path="isGeoEnabled" value="false"/>
+            	<table><tr>
+            	  <td><b>Искать ближайшие</b></td>
+            	  <td><form:checkbox path="isGeoEnabled" value="false"/></td>
+            	</tr></table>
+            	
             	
             </div>
         </form:form>
