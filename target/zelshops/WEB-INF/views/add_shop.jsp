@@ -13,7 +13,21 @@
 <title>Добавление магазина</title>
 </head>
 <body>
-	<h3><a href="search">На главную</a></h3>
+	<ul>
+		<ri>
+			<c:if test="${empty currentUser}">
+			<a href="login">Вход</a>
+			</c:if>
+		</ri>
+		<c:if test="${not empty currentUser}">
+		
+		
+		<ri><a href="logout">Выход</a></ri>
+		<ri><t>${currentAccess}</t></ri>
+		<ri><t>${currentUser.username}</t></ri>
+		</c:if>
+		<li><a href="search">На главную</a></li>
+	</ul>
 	<img src="<c:url value='/resources/images/zelshop.png'/>" class="logo"/>
 
 	<div class="login-box">
@@ -47,6 +61,18 @@
 			<tr>
 				<td>Сфера:</td>
 				<td><form:select path="spec" items="${specList}" /></td>
+			</tr>
+			<tr>
+				<td>Описание:</td>
+				<td><form:input path="description" type='text'/></td>
+			</tr>		
+			<tr>
+				<td>Широта(Lat):</td>
+				<td><form:input path="lat" type='text' /></td>
+			</tr>
+			<tr>
+				<td>Долгота(Lng):</td>
+				<td><form:input path="lng" type='text' /></td>
 			</tr>
 			<tr>
 				<td colspan='2'><input name="submit" type="submit"

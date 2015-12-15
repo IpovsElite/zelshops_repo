@@ -11,12 +11,26 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <spring:url value="/resources/zelshop.png" var="zelshopPNG"/>
 <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet">
-<title>Нeактивные магазины</title>
+<title>Новые магазины</title>
 </head>
 <body>
-<h3><a href="search">На главную</a></h3>
+<ul>
+		<ri>
+			<c:if test="${empty currentUser}">
+			<a href="login">Вход</a>
+			</c:if>
+		</ri>
+		<c:if test="${not empty currentUser}">
+		
+		
+		<ri><a href="logout">Выход</a></ri>
+		<ri><t>${currentAccess}</t></ri>
+		<ri><t>${currentUser.username}</t></ri>
+		</c:if>
+		<li><a href="search">На главную</a></li>
+	</ul>
 <img src="<c:url value='/resources/images/zelshop.png'/>" class="logo"/>
-<h2>Неактивные магазины</h2>
+<h2>Новые магазины</h2>
 <div class="shops">
                 <c:forEach var="shop" items="${shopList}" varStatus="status">
                 
@@ -24,9 +38,13 @@
                 <div class = "shop">${shop.name}<br>
                 	<div class = "crop"><img src = "resources/images/5ka.jpg" class = "shop-image"></div>
                 	<div class = "info">
+                		<c:if test="${shop.site != 'нет'}">
                 		<strong>Cайт:</strong><a href="http://${shop.site}">${shop.site}</a><br>
+                		</c:if>
 						<strong>Адрес:</strong>${shop.address}<br>
+						<c:if test="${shop.telephone != 'нет'}">
 						<strong>Телефон:</strong>${shop.telephone}<br>
+						</c:if>
 						<strong>Сфера:</strong>${shop.spec}<br>
 						<a href="makeactive?id=${shop.id}">Сделать активным</a><br>
 						<a href="updateshop?id=${shop.id}">Изменить</a>

@@ -17,34 +17,81 @@
 
 
 <title>ZELshops.ru - только лучшие магазины Зеленограда</title>
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+<script>
+var initialLocation;
+var siberia = new google.maps.LatLng(60, 105);
+var newyork = new google.maps.LatLng(40.69847032728747, -73.9514422416687);
+var browserSupportFlag =  new Boolean();
+
+function initialize() {
+  var myOptions = {
+    zoom: 18,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+  var map = new google.maps.Map(document.getElementById("googleMap"), myOptions);
+ 
+  // Try W3C Geolocation (Preferred)
+  if(navigator.geolocation) {
+    browserSupportFlag = true;
+    navigator.geolocation.getCurrentPosition(function(position) {
+      initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+      map.setCenter(initialLocation);
+      document.getElementById("curLat").value=position.coords.latitude;
+      document.getElementById("curLng").value=position.coords.longitude;
+      var marker=new google.maps.Marker({
+    	  position:initialLocation,
+    	  });
+
+    	marker.setMap(map);
+    }, function() {
+      handleNoGeolocation(browserSupportFlag);
+    });
+  }
+  // Browser doesn't support Geolocation
+  else {
+    browserSupportFlag = false;
+    handleNoGeolocation(browserSupportFlag);
+  }
+
+  function handleNoGeolocation(errorFlag) {
+    if (errorFlag == true) {
+      alert("Geolocation service failed.");
+      initialLocation = newyork;
+    } else {
+      alert("Your browser doesn't support geolocation. We've placed you in Siberia.");
+      initialLocation = siberia;
+    }
+    map.setCenter(initialLocation);
+    
+  }
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
 </head>
 <body>
-	<c:if test="${empty currentUser}">
-	<h3><a href="login">Вход</a></h3>
-	</c:if>
-	<c:if test="${not empty currentUser}">
-	  <table>
-			<tr>
-				<td>Пользователь:</td>
-				<td>${currentUser.username}</td>
-				<td>Роль:</td>
-				<td>${currentAccess}</td>
-			</tr>
-			<tr>
-				<td><h3><a href="logout">Выход</a></h3></td>
-			</tr>
-			<tr>
-				<td><h3><a href="newshops">Неактивные магазины</a></h3></td>
-			</tr>
-			<tr>
-				<td><h3><a href="checkshops">Магазины, требующие проверки</a></h3></td>
-			</tr>
-			<tr>
-				<td><h3><a href="addshop">Добавить магазин</a></h3></td>
-			</tr>
-		  </table>
-	</c:if>
 	
+	<ul>
+		<ri>
+			<c:if test="${empty currentUser}">
+			<a href="login">Вход</a>
+			</c:if>
+		</ri>
+		<c:if test="${not empty currentUser}">
+		
+		
+		<ri><a href="logout">Выход</a></ri>
+		<ri><t>${currentAccess}</t></ri>
+		<ri><t>${currentUser.username}</t></ri>
+		</c:if>
+		<c:if test="${currentAccess == 'Администратор' and not empty currentUser }">
+		<li><a href="addshop">Добавить магазин</a></li>
+		<li><a href="newshops">Новые магазины</a></li>
+		<li><a href="checkshops">Магазины, требующие проверки</a></li>
+		<li><a href="inactiveshops">Неактивные магазины</a></li>
+		</c:if>
+	</ul>
+	<ul><ri><a href="currentloc">Ваше местоположение</a></ri></ul>	
 	<img src="<c:url value='/resources/images/zelshop.png'/>" class="logo"/>
     <div align="center">
         <form:form action="search" method="post" commandName="searchForm">
@@ -54,9 +101,18 @@
             	<div class="sel">
             		<form:select path="spec" items="${specList}" />
             	</div>
+            	<form:input path="currentLat" type="hidden" id="curLat"/>
+            	<form:input path="currentLng" type="hidden" id="curLng"/>
+            	<table><tr>
+            	  <td><b>Искать ближайшие</b></td>
+            	  <td><form:checkbox path="isGeoEnabled" value="false"/></td>
+            	</tr></table>
+            	
+            	
             </div>
         </form:form>
     </div>
+    <div id="googleMap"></div>
       		<c:set var="first" value="${isFirstVisit}"/>
       		<c:if test="${!first}">
             <h1>Результаты</h1>
@@ -71,15 +127,19 @@
                 <div class = "shop"><b>${shop.name}</b>
                 	<div class = "crop"><img src = "resources/images/5ka.jpg" class = "shop-image"></div>
                 	<div class = "info">
+                		<c:if test="${shop.site != 'нет'}">
                 		<strong>Cайт:</strong><a href="http://${shop.site}">${shop.site}</a><br>
+                		</c:if>
 						<strong>Адрес:</strong>${shop.address}<br>
+						<c:if test="${shop.telephone != 'нет'}">
 						<strong>Телефон:</strong>${shop.telephone}<br>
+						</c:if>
 						<strong>Сфера:</strong>${shop.spec}<br>
-						<c:if test="${not empty currentAccess}">
+						<c:if test="${currentAccess == 'Администратор' and not empty currentUser}">
 						<a href="updateshop?id=${shop.id}">Изменить</a>
 						<a href="deleteshop?id=${shop.id}">Удалить</a>
 						</c:if>
-						<c:if test="${empty currentAccess}">
+						<c:if test="${empty currentUser}">
 						<a href="checkshop?id=${shop.id}">Информация не верна</a>
 						</c:if>
 					</div>	

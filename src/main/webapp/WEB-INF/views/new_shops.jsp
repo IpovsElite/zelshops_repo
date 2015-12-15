@@ -11,7 +11,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <spring:url value="/resources/zelshop.png" var="zelshopPNG"/>
 <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet">
-<title>Нeактивные магазины</title>
+<title>Новые магазины</title>
 </head>
 <body>
 <ul>
@@ -30,7 +30,7 @@
 		<li><a href="search">На главную</a></li>
 	</ul>
 <img src="<c:url value='/resources/images/zelshop.png'/>" class="logo"/>
-<h2>Неактивные магазины</h2>
+<h2>Новые магазины</h2>
 <div class="shops">
                 <c:forEach var="shop" items="${shopList}" varStatus="status">
                 

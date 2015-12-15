@@ -63,6 +63,18 @@
 				<td><form:select path="spec" items="${specList}" /></td>
 			</tr>
 			<tr>
+				<td>Описание:</td>
+				<td><form:input path="description" type='text'/></td>
+			</tr>		
+			<tr>
+				<td>Широта(Lat):</td>
+				<td><form:input path="lat" type='text' /></td>
+			</tr>
+			<tr>
+				<td>Долгота(Lng):</td>
+				<td><form:input path="lng" type='text' /></td>
+			</tr>
+			<tr>
 				<td colspan='2'><input name="submit" type="submit"
 					value="Добавить" /></td>
 			</tr>

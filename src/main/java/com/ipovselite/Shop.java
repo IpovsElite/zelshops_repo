@@ -8,6 +8,11 @@ public class Shop {
 	private String telephone;
 	private String spec;
 	private int status;
+	private String description;
+	private float rating;
+	private int voters;
+	private double lat;
+	private double lng;
 	public int getId() {
 		return id;
 	}
@@ -49,5 +54,35 @@ public class Shop {
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public float getRating() {
+		return rating;
+	}
+	public void setRating(float rating) {
+		this.rating = rating;
+	}
+	public int getVoters() {
+		return voters;
+	}
+	public void setVoters(int voters) {
+		this.voters = voters;
+	}
+	public double getLat() {
+		return lat;
+	}
+	public void setLat(double lat) {
+		this.lat = lat;
+	}
+	public double getLng() {
+		return lng;
+	}
+	public void setLng(double lng) {
+		this.lng = lng;
 	}
 }

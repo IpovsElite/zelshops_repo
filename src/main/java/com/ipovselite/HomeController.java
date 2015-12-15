@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("/")
 public class HomeController implements Controller {
+	public static String[] SpecList={"Еда","Здоровье","Одежда","Электроника","Спорт"};
 	@Autowired
 	private ShopDAO shopDAO;
 	
@@ -59,37 +60,11 @@ public class HomeController implements Controller {
 	
 	@RequestMapping(value="/search",method={RequestMethod.GET})
 	public String home(ModelMap model,HttpSession session) {
-		SearchParameters searchForm = new SearchParameters();
+		SearchParameters searchForm = (SearchParameters) session.getAttribute("searchParam");
+		if (searchForm==null)
+			searchForm=new SearchParameters();
 		model.addAttribute("searchForm", searchForm);
-		List<String> specList = new ArrayList<String>();
-		specList.add("Еда");
-		specList.add("Здоровье");
-		specList.add("Одежда");
-		specList.add("Электроника");
-		specList.add("Спорт");
-		model.addAttribute("specList", specList);
-		java.util.Enumeration<String> sessEnum = session
-
-				.getAttributeNames();
-				  while (sessEnum.hasMoreElements()) {
-
-				String s = sessEnum.nextElement();
-
-				System.out.print(s);
-
-				System.out.println("==" + session.getAttribute(s));
-
-				  }
-				
-
-		if (session.getAttribute("isFirstVisit")==null)
-			session.setAttribute("isFirstVisit",true);
-		if (session.getAttribute("currentUser")==null)
-			session.setAttribute("currentUser",null);
-		if (session.getAttribute("currentAccess")==null)
-			session.setAttribute("currentAccess",null);
-		if (session.getAttribute("shopList")==null)
-			session.setAttribute("shopList",null); 
+		model.addAttribute("specList", SpecList);
 		model.addAttribute("isFirstVisit",session.getAttribute("isFirstVisit"));
 		model.addAttribute("currentUser",session.getAttribute("currentUser"));
 		model.addAttribute("currentAccess",session.getAttribute("currentAccess"));
@@ -118,7 +93,12 @@ public class HomeController implements Controller {
 			for (Shop s : shopList) {
 				logger.debug("Name: "+s.getName());
 			}
+			if (searchParam.getIsGeoEnabled()) {
+				logger.debug("GEOTAGGING ON: "+searchParam.getCurrentLat()+" "+searchParam.getCurrentLng());
+				shopList=Geotagging.GetNearestShops(searchParam.getCurrentLat(), searchParam.getCurrentLng(), 1, shopList);
+			}
 			session.setAttribute("shopList", shopList);
+			session.setAttribute("searchParam", searchParam);
 		}
 		else
 			logger.error("searchParam is null!");
@@ -178,13 +158,7 @@ public class HomeController implements Controller {
 	public String addShopGet(HttpServletRequest request, HttpSession session, ModelMap model) {
 		Shop shop = new Shop();
 		String msg = request.getParameter("msg");
-		List<String> specList = new ArrayList<String>();
-		specList.add("Еда");
-		specList.add("Здоровье");
-		specList.add("Одежда");
-		specList.add("Электроника");
-		specList.add("Спорт");
-		model.addAttribute("specList", specList);
+		model.addAttribute("specList", SpecList);
 		model.addAttribute("msg", msg);
 		model.addAttribute("shopForm", shop);
 		session.setAttribute("shopList", null);
@@ -208,6 +182,15 @@ public class HomeController implements Controller {
 		session.setAttribute("isFirstVisit", true);
 		return "new_shops";
 	}
+	@RequestMapping(value="/inactiveshops",method={RequestMethod.GET})
+	public String inactiveShopsGet(HttpServletRequest request, HttpSession session, ModelMap model) {
+		
+		List<Shop> shopList=shopDAO.findByStatus(1);
+		model.addAttribute("shopList", shopList);
+		session.setAttribute("shopList", null);
+		session.setAttribute("isFirstVisit", true);
+		return "inactive_shops";
+	}
 	@RequestMapping(value="/makeactive",method={RequestMethod.GET})
 	public String makeActive(HttpServletRequest request, HttpSession session, ModelMap model) {
 		shopDAO.updateColumn("status", 3,new Integer(request.getParameter("id")));
@@ -218,7 +201,7 @@ public class HomeController implements Controller {
 	}
 	@RequestMapping(value="/makeinactive",method={RequestMethod.GET})
 	public String makeInactive(HttpServletRequest request, HttpSession session, ModelMap model) {
-		shopDAO.updateColumn("status", 0,new Integer(request.getParameter("id")));
+		shopDAO.updateColumn("status", 1,new Integer(request.getParameter("id")));
 		session.setAttribute("shopList", null);
 		session.setAttribute("isFirstVisit", true);
 		return "redirect:search";
@@ -247,15 +230,8 @@ public class HomeController implements Controller {
 		System.out.println("----------------------SHOPID IN UPDATESHOPGET: "+shop.getId());
 		String msg = request.getParameter("msg");
 		model.addAttribute("updateShopForm", shop);
-		List<String> specList = new ArrayList<String>();
-		specList.add("Еда");
-		specList.add("Здоровье");
-		specList.add("Одежда");
-		specList.add("Электроника");
-		specList.add("Спорт");
-		model.addAttribute("specList", specList);
+		model.addAttribute("specList", SpecList);
 		model.addAttribute("msg", msg);
-		
 		session.setAttribute("changeShopId", shop.getId());
 		session.setAttribute("shopList", null);
 		session.setAttribute("isFirstVisit", true);
@@ -264,8 +240,8 @@ public class HomeController implements Controller {
 	@RequestMapping(value="/updateshop",method={RequestMethod.POST})
 	public String updateShopPost(@ModelAttribute("updateShopForm") Shop shop,Map<String,Object> model,HttpSession session) {
 		Integer id= (Integer)session.getAttribute("changeShopId");
-		if (shop.getName().equals("") || shop.getSite().equals("") || shop.getSite().equals("") || shop.getSite().equals(""))
-			return "redirect:updateshop?id="+id.intValue()+"msg=fail";
+		if (shop.getName().equals("") || shop.getSite().equals("") || shop.getAddress().equals("") || shop.getTelephone().equals("") )
+			return "redirect:updateshop?id="+id.intValue()+"&msg=fail";
 		//currentUser=null;
 		System.out.println("----------------------SHOPID IN UPDATESHOPPOST: "+shop.getId());
 		if (!shop.getName().equals(""))
@@ -277,6 +253,8 @@ public class HomeController implements Controller {
 		if (!shop.getTelephone().equals("") )
 			shopDAO.updateColumn("telephone", shop.getTelephone(), id.intValue());
 		shopDAO.updateColumn("spec", shop.getSpec(), id.intValue());
+		shopDAO.updateColumn("lat", shop.getLat(), id.intValue());
+		shopDAO.updateColumn("lng", shop.getLng(), id.intValue());
 		return "redirect:/search";
 	}
 	@RequestMapping(value="/checkshop",method={RequestMethod.GET})
@@ -285,6 +263,13 @@ public class HomeController implements Controller {
 		session.setAttribute("shopList", null);
 		session.setAttribute("isFirstVisit", true);
 		return "redirect:search";
+		
+	}
+	@RequestMapping(value="/currentloc",method={RequestMethod.GET})
+	public String currentLocGet(HttpServletRequest request, HttpSession session, ModelMap model) {
+		session.setAttribute("isFirstVisit", true);
+		session.setAttribute("shopList", null);
+		return "current_loc";
 		
 	}
 	public Class<? extends Annotation> annotationType() {
