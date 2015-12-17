@@ -79,7 +79,7 @@ ri a:hover {
 }
 
 .search{
-	width: 100%;
+	width: 85%;
 	height: 100%;
 }
 
@@ -90,26 +90,21 @@ ri a:hover {
 	height: 20px;
 	border: none;
 	position: absolute;
-	right: -10%;
+	right: -75px;
 	top: 5px;
 }
 
 .sel{
-	position: absolute;
+	position: relative;
 	height: 100%;
-	top: -20px;
-	left: 0;
+	height: 31px;
+	width: 10%;
 }
 
 .search-block{
 	position: relative;
 	width: 60%;
 	height: 25px;
-	margin: 0 20%;
-}
-
-.search-form{
-	margin-bottom: 20px;
 }
 
 .shops{
