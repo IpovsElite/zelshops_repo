@@ -1,1 +1,5 @@
 /target/
+.classpath
+classpath.txt
+pom.xml
+.project
