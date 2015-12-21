@@ -79,37 +79,32 @@ ri a:hover {
 }
 
 .search{
-	width: 100%;
+	width: 85%;
 	height: 100%;
 }
 
 .search-icon{
 	background: url('search.png') no-repeat;
 	background-size: 20px;
-	width: 120px;
+	width: 	20px;
 	height: 20px;
 	border: none;
 	position: absolute;
-	right: -10%;
+	right: 4%;
 	top: 5px;
 }
 
 .sel{
-	position: absolute;
+	position: relative;
 	height: 100%;
-	top: -20px;
-	left: 0;
+	height: 31px;
+	width: 10%;
 }
 
 .search-block{
 	position: relative;
 	width: 60%;
 	height: 25px;
-	margin: 0 20%;
-}
-
-.search-form{
-	margin-bottom: 20px;
 }
 
 .shops{

@@ -96,19 +96,15 @@ google.maps.event.addDomListener(window, 'load', initialize);
     <div align="center">
         <form:form action="search" method="post" commandName="searchForm">
             <div class="search-block">
-            	<form:input path="pattern" class="search"/><br/>
+				<form:select path="spec" items="${specList}" class="sel"/>
+            	<form:input path="pattern" class="search"/>
             	<input type="submit" value="" class="search-icon"/>
-            	<div class="sel">
-            		<form:select path="spec" items="${specList}" />
-            	</div>
             	<form:input path="currentLat" type="hidden" id="curLat"/>
             	<form:input path="currentLng" type="hidden" id="curLng"/>
             	<table><tr>
             	  <td><b>Искать ближайшие</b></td>
             	  <td><form:checkbox path="isGeoEnabled" value="false"/></td>
-            	</tr></table>
-            	
-            	
+            	</tr></table>     	
             </div>
         </form:form>
     </div>
