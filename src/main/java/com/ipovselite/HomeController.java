@@ -58,7 +58,7 @@ public class HomeController implements Controller {
 	}*/
 	private static final Logger logger = Logger.getLogger(HomeController.class);
 	
-	@RequestMapping(value="/search",method={RequestMethod.GET})
+	@RequestMapping(value="/search", method = {RequestMethod.GET})
 	public String home(ModelMap model,HttpSession session) {
 		SearchParameters searchForm = (SearchParameters) session.getAttribute("searchParam");
 		if (searchForm==null)
@@ -85,7 +85,7 @@ public class HomeController implements Controller {
 		
 	}
 	
-	@RequestMapping(value="/search",method={RequestMethod.POST})
+	@RequestMapping(value="/search", method = {RequestMethod.POST})
 	public String getSearchResult(@ModelAttribute("searchForm") SearchParameters searchParam, Map<String,Object> model,HttpSession session) {
 		if (searchParam!=null) {
 			List<Shop> shopList = shopDAO.search(searchParam);
@@ -107,7 +107,7 @@ public class HomeController implements Controller {
 		return "redirect:/search";
 		
 	}
-	@RequestMapping(value="/login",method={RequestMethod.GET})
+	@RequestMapping(value="/login", method = {RequestMethod.GET})
 	public String loginForm(HttpServletRequest request, HttpSession session, ModelMap model) {
 		User user = new User();
 		model.addAttribute("loginForm", user);
@@ -119,7 +119,7 @@ public class HomeController implements Controller {
 		
 	}
 	
-	@RequestMapping(value="/login",method={RequestMethod.POST})
+	@RequestMapping(value="/login", method = {RequestMethod.POST})
 	public String getLoginResult(@ModelAttribute("loginForm") User user,Map<String,Object> model,HttpSession session) {
 		User currentUser=null;
 		String currentAccess=null;
@@ -138,7 +138,7 @@ public class HomeController implements Controller {
 		else
 			return "redirect:login?msg=fail";
 	}
-	@RequestMapping(value="/logout",method={RequestMethod.GET})
+	@RequestMapping(value="/logout", method = {RequestMethod.GET})
 	public String logoutGet(Map<String,Object> model,HttpSession session) {
 		
 		User currentUser=null;
@@ -148,13 +148,13 @@ public class HomeController implements Controller {
 		session.setAttribute("isFirstVisit", true);
 		return "redirect:/search";
 	}
-	@RequestMapping(value="/logout",method={RequestMethod.POST})
+	@RequestMapping(value="/logout", method = {RequestMethod.POST})
 	public String logoutPost(Map<String,Object> model) {
 		
 		//currentUser=null;
 		return "redirect:/search";
 	}
-	@RequestMapping(value="/addshop",method={RequestMethod.GET})
+	@RequestMapping(value="/addshop", method = {RequestMethod.GET})
 	public String addShopGet(HttpServletRequest request, HttpSession session, ModelMap model) {
 		Shop shop = new Shop();
 		String msg = request.getParameter("msg");
@@ -165,7 +165,7 @@ public class HomeController implements Controller {
 		session.setAttribute("isFirstVisit", true);
 		return "add_shop";
 	}
-	@RequestMapping(value="/addshop",method={RequestMethod.POST})
+	@RequestMapping(value="/addshop", method = {RequestMethod.POST})
 	public String addShopPost(@ModelAttribute("shopForm") Shop shop,Map<String,Object> model,HttpSession session) {
 		if (shop.getName().equals("") || shop.getSite().equals("") || shop.getSite().equals("") || shop.getSite().equals(""))
 			return "redirect:addshop?msg=fail";
@@ -173,7 +173,7 @@ public class HomeController implements Controller {
 		shopDAO.addShop(shop);
 		return "redirect:/search";
 	}
-	@RequestMapping(value="/newshops",method={RequestMethod.GET})
+	@RequestMapping(value="/newshops", method = {RequestMethod.GET})
 	public String newShopsGet(HttpServletRequest request, HttpSession session, ModelMap model) {
 		
 		List<Shop> shopList=shopDAO.findByStatus(0);
@@ -182,7 +182,7 @@ public class HomeController implements Controller {
 		session.setAttribute("isFirstVisit", true);
 		return "new_shops";
 	}
-	@RequestMapping(value="/inactiveshops",method={RequestMethod.GET})
+	@RequestMapping(value="/inactiveshops", method = {RequestMethod.GET})
 	public String inactiveShopsGet(HttpServletRequest request, HttpSession session, ModelMap model) {
 		
 		List<Shop> shopList=shopDAO.findByStatus(1);
@@ -191,7 +191,7 @@ public class HomeController implements Controller {
 		session.setAttribute("isFirstVisit", true);
 		return "inactive_shops";
 	}
-	@RequestMapping(value="/makeactive",method={RequestMethod.GET})
+	@RequestMapping(value="/makeactive", method = {RequestMethod.GET})
 	public String makeActive(HttpServletRequest request, HttpSession session, ModelMap model) {
 		shopDAO.updateColumn("status", 3,new Integer(request.getParameter("id")));
 		session.setAttribute("shopList", null);
@@ -199,7 +199,7 @@ public class HomeController implements Controller {
 		return "redirect:search";
 		
 	}
-	@RequestMapping(value="/makeinactive",method={RequestMethod.GET})
+	@RequestMapping(value="/makeinactive", method = {RequestMethod.GET})
 	public String makeInactive(HttpServletRequest request, HttpSession session, ModelMap model) {
 		shopDAO.updateColumn("status", 1,new Integer(request.getParameter("id")));
 		session.setAttribute("shopList", null);
@@ -207,7 +207,7 @@ public class HomeController implements Controller {
 		return "redirect:search";
 		
 	}
-	@RequestMapping(value="/deleteshop",method={RequestMethod.GET})
+	@RequestMapping(value="/deleteshop", method = {RequestMethod.GET})
 	public String deleteShop(HttpServletRequest request, HttpSession session, ModelMap model) {
 		shopDAO.delete(new Integer(request.getParameter("id")));
 		session.setAttribute("shopList", null);
@@ -215,7 +215,7 @@ public class HomeController implements Controller {
 		return "redirect:search";
 		
 	}
-	@RequestMapping(value="/checkshops",method={RequestMethod.GET})
+	@RequestMapping(value="/checkshops", method = {RequestMethod.GET})
 	public String checkShopsGet(HttpServletRequest request, HttpSession session, ModelMap model) {
 		
 		List<Shop> shopList=shopDAO.findByStatus(2);
@@ -224,7 +224,7 @@ public class HomeController implements Controller {
 		session.setAttribute("isFirstVisit", true);
 		return "check_shops";
 	}
-	@RequestMapping(value="/updateshop",method={RequestMethod.GET})
+	@RequestMapping(value="/updateshop", method = {RequestMethod.GET})
 	public String updateShopGet(HttpServletRequest request, HttpSession session, ModelMap model) {
 		Shop shop = shopDAO.get(new Integer(request.getParameter("id")));
 		System.out.println("----------------------SHOPID IN UPDATESHOPGET: "+shop.getId());
@@ -237,7 +237,7 @@ public class HomeController implements Controller {
 		session.setAttribute("isFirstVisit", true);
 		return "update_shop";
 	}
-	@RequestMapping(value="/updateshop",method={RequestMethod.POST})
+	@RequestMapping(value="/updateshop", method = {RequestMethod.POST})
 	public String updateShopPost(@ModelAttribute("updateShopForm") Shop shop,Map<String,Object> model,HttpSession session) {
 		Integer id= (Integer)session.getAttribute("changeShopId");
 		if (shop.getName().equals("") || shop.getSite().equals("") || shop.getAddress().equals("") || shop.getTelephone().equals("") )
@@ -257,15 +257,26 @@ public class HomeController implements Controller {
 		shopDAO.updateColumn("lng", shop.getLng(), id.intValue());
 		return "redirect:/search";
 	}
-	@RequestMapping(value="/checkshop",method={RequestMethod.GET})
+	@RequestMapping(value="/checkshop", method={RequestMethod.GET})
 	public String checkShopGet(HttpServletRequest request, HttpSession session, ModelMap model) {
-		shopDAO.updateColumn("status", 2,new Integer(request.getParameter("id")));
-		session.setAttribute("shopList", null);
-		session.setAttribute("isFirstVisit", true);
-		return "redirect:search";
+		//shopDAO.updateColumn("status", 2,new Integer(request.getParameter("id")));
+		//session.setAttribute("shopList", null);
+		//session.setAttribute("isFirstVisit", true);
+		Shop shop = shopDAO.get(new Integer(request.getParameter("id")).intValue());
+		Comment comment = (Comment) session.getAttribute("comment");
+		if (comment == null)
+			comment = new Comment();
+		model.addAttribute("shop",shop);
+		model.addAttribute("comment",comment);
+		return "check_shop";
 		
 	}
-	@RequestMapping(value="/currentloc",method={RequestMethod.GET})
+	@RequestMapping(value="/checkshop", method = {RequestMethod.POST})
+	public String checkShopPost(@ModelAttribute("comment") Comment comment, HttpServletRequest request, HttpSession session, ModelMap model) {
+		shopDAO.addComment(new Integer(request.getParameter("id")).intValue(),session.getId(), comment.getText());
+		return "redirect:/search";
+	}
+	@RequestMapping(value="/currentloc", method = {RequestMethod.GET})
 	public String currentLocGet(HttpServletRequest request, HttpSession session, ModelMap model) {
 		session.setAttribute("isFirstVisit", true);
 		session.setAttribute("shopList", null);

@@ -145,6 +145,11 @@ public class ShopDAOImpl implements ShopDAO {
 		String sql = "DELETE FROM db.shop WHERE id = " + id + ";";
 		jdbcTemplate.update(sql);
 	}
+	public void addComment(int shopid, String userid, String comment) {
+		// TODO Auto-generated method stub
+		String sql = "INSERT INTO db.comment (shopid,userid,comment) VALUES (?,?,?);";
+		jdbcTemplate.update(sql,shopid, userid, comment);
+	}
 	
 
 }
