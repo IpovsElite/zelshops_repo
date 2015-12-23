@@ -11,4 +11,5 @@ public interface ShopDAO {
 	public List<Shop> findByStatus(int status);
 	public void delete(int id);
 	public void addComment(int shopid, String userid, String comment);
+	public List<Comment> watchComments(int shopid);
 }

@@ -274,8 +274,26 @@ public class HomeController implements Controller {
 	@RequestMapping(value="/checkshop", method = {RequestMethod.POST})
 	public String checkShopPost(@ModelAttribute("comment") Comment comment, HttpServletRequest request, HttpSession session, ModelMap model) {
 		shopDAO.addComment(new Integer(request.getParameter("id")).intValue(),session.getId(), comment.getText());
+		shopDAO.updateColumn("status", 2, new Integer(request.getParameter("id")).intValue());
 		return "redirect:/search";
 	}
+	
+	@RequestMapping(value="/watchcomments", method = {RequestMethod.GET})
+	public String watchCommentsGet(HttpServletRequest request, HttpSession session, ModelMap model) {
+		int shopid = new Integer(request.getParameter("id")).intValue();
+		Shop shop = shopDAO.get(shopid);
+		List<Comment> commentList = shopDAO.watchComments(shopid);
+		
+		logger.debug(shopid);
+		for (Comment c: commentList) {
+			logger.debug(c.getText());
+		}
+		
+		model.addAttribute("shop",shop);
+		model.addAttribute("commentList", commentList);
+		return "watch_comments";
+	}
+	
 	@RequestMapping(value="/currentloc", method = {RequestMethod.GET})
 	public String currentLocGet(HttpServletRequest request, HttpSession session, ModelMap model) {
 		session.setAttribute("isFirstVisit", true);

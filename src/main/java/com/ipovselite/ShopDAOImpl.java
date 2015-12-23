@@ -150,6 +150,19 @@ public class ShopDAOImpl implements ShopDAO {
 		String sql = "INSERT INTO db.comment (shopid,userid,comment) VALUES (?,?,?);";
 		jdbcTemplate.update(sql,shopid, userid, comment);
 	}
+	public List<Comment> watchComments(int shopid) {
+		// TODO Auto-generated method stub
+		String sql = "SELECT comment FROM db.comment WHERE shopid = " + shopid + ";";
+		List<Comment> listComment=jdbcTemplate.query(sql, new RowMapper<Comment>() {
+			public Comment mapRow(ResultSet rs, int rowNum) throws SQLException {
+				// TODO Auto-generated method stub
+				Comment c = new Comment();
+				c.setText(rs.getString("comment"));
+				return c;
+			}
+		});
+		return listComment;
+	}
 	
 
 }

@@ -50,6 +50,7 @@
 						<a href="makeactive?id=${shop.id}">Сделать активным</a><br>
 						<a href="updateshop?id=${shop.id}">Изменить</a>
 						<a href="deleteshop?id=${shop.id}">Удалить</a><br>
+						<a href="watchcomments?id=${shop.id}">Посмотреть комментарии</a><br>
 					</div>	
                 	
 
