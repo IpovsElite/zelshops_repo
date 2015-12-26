@@ -22,5 +22,6 @@
             <value>.jsp</value>
         </property>
     </bean>
+    <bean id="specService" class="com.ipovselite.SpecLocal"/>
  
 </beans>

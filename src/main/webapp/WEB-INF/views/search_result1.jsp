@@ -112,7 +112,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
       		<c:set var="first" value="${isFirstVisit}"/>
       		<c:if test="${!first}">
             <h1>Результаты</h1>
-            <c:if test="${empty shopList}">
+            <c:if test="${empty shopList && !first}">
             <h1>Ничего не найдено</h1>
             </c:if>
             </c:if>
