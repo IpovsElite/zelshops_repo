@@ -20,12 +20,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("/")
 public class HomeController implements Controller {
-	public static String[] SpecList={"Еда","Здоровье","Одежда","Электроника","Спорт"};
 	@Autowired
 	private ShopDAO shopDAO;
 	
 	@Autowired
 	private UserDAO userDAO;
+	@Autowired
+	private ISpecService specService;
 	
 	//private List<Shop> shopList=new ArrayList<Shop>();
 	//private User currentUser;
@@ -60,16 +61,26 @@ public class HomeController implements Controller {
 	
 	@RequestMapping(value="/search", method = {RequestMethod.GET})
 	public String home(ModelMap model,HttpSession session) {
+		boolean isFirstVisit;
 		SearchParameters searchForm = (SearchParameters) session.getAttribute("searchParam");
 		if (searchForm==null)
 			searchForm=new SearchParameters();
+		
 		model.addAttribute("searchForm", searchForm);
-		model.addAttribute("specList", SpecList);
-		model.addAttribute("isFirstVisit",session.getAttribute("isFirstVisit"));
+		model.addAttribute("specList", specService.getSpecList());
+		if (session.getAttribute("isFirstVisit")==null )
+			isFirstVisit=true;
+		else {
+			if (session.getAttribute("isFirstVisit").equals("true"))
+				isFirstVisit=true;
+			else
+				isFirstVisit=false;
+		}
+		model.addAttribute("isFirstVisit",isFirstVisit);
 		model.addAttribute("currentUser",session.getAttribute("currentUser"));
 		model.addAttribute("currentAccess",session.getAttribute("currentAccess"));
 		logger.debug("Added specList to the model.");
-		List<Shop> shopList=(ArrayList<Shop>)session.getAttribute("shopList");
+		List<Shop> shopList=(List<Shop>)session.getAttribute("shopList");
 		if (shopList!=null)
 			if (!shopList.isEmpty()) {
 				List<Shop> tempList=shopList;
@@ -113,8 +124,6 @@ public class HomeController implements Controller {
 		model.addAttribute("loginForm", user);
 		String msg=request.getParameter("msg");
 		model.addAttribute("msg",msg);
-		session.setAttribute("isFirstVisit", true);
-		session.setAttribute("shopList", null);
 		return "login_form";
 		
 	}
@@ -131,8 +140,8 @@ public class HomeController implements Controller {
 			}
 			session.setAttribute("currentUser", currentUser);
 			session.setAttribute("currentAccess", currentAccess);
-			session.setAttribute("shopList", null);
-			session.setAttribute("isFirstVisit", true);
+			//session.setAttribute("shopList", null);
+			//session.setAttribute("isFirstVisit", null);
 			return "redirect:search";
 		}
 		else
@@ -144,8 +153,6 @@ public class HomeController implements Controller {
 		User currentUser=null;
 		session.setAttribute("currentUser", currentUser);
 		session.setAttribute("currentAccess", null);
-		session.setAttribute("shopList", null);
-		session.setAttribute("isFirstVisit", true);
 		return "redirect:/search";
 	}
 	@RequestMapping(value="/logout", method = {RequestMethod.POST})
@@ -158,11 +165,11 @@ public class HomeController implements Controller {
 	public String addShopGet(HttpServletRequest request, HttpSession session, ModelMap model) {
 		Shop shop = new Shop();
 		String msg = request.getParameter("msg");
-		model.addAttribute("specList", SpecList);
+		model.addAttribute("specList", specService.getSpecList());
 		model.addAttribute("msg", msg);
 		model.addAttribute("shopForm", shop);
-		session.setAttribute("shopList", null);
-		session.setAttribute("isFirstVisit", true);
+		//session.setAttribute("shopList", null);
+		//session.setAttribute("isFirstVisit", null);
 		return "add_shop";
 	}
 	@RequestMapping(value="/addshop", method = {RequestMethod.POST})
@@ -177,41 +184,39 @@ public class HomeController implements Controller {
 	public String newShopsGet(HttpServletRequest request, HttpSession session, ModelMap model) {
 		
 		List<Shop> shopList=shopDAO.findByStatus(0);
-		model.addAttribute("shopList", shopList);
-		session.setAttribute("shopList", null);
-		session.setAttribute("isFirstVisit", true);
+		model.addAttribute("shopList0", shopList);
 		return "new_shops";
 	}
 	@RequestMapping(value="/inactiveshops", method = {RequestMethod.GET})
 	public String inactiveShopsGet(HttpServletRequest request, HttpSession session, ModelMap model) {
 		
 		List<Shop> shopList=shopDAO.findByStatus(1);
-		model.addAttribute("shopList", shopList);
-		session.setAttribute("shopList", null);
-		session.setAttribute("isFirstVisit", true);
+		model.addAttribute("shopList1", shopList);
 		return "inactive_shops";
 	}
 	@RequestMapping(value="/makeactive", method = {RequestMethod.GET})
 	public String makeActive(HttpServletRequest request, HttpSession session, ModelMap model) {
 		shopDAO.updateColumn("status", 3,new Integer(request.getParameter("id")));
-		session.setAttribute("shopList", null);
-		session.setAttribute("isFirstVisit", true);
+		//session.setAttribute("shopList", null);
+		//session.setAttribute("isFirstVisit", true);
+		if (session.getAttribute("searchParam")!=null)
+			session.setAttribute("shopList", shopDAO.search((SearchParameters)session.getAttribute("searchParam")));
 		return "redirect:search";
 		
 	}
 	@RequestMapping(value="/makeinactive", method = {RequestMethod.GET})
 	public String makeInactive(HttpServletRequest request, HttpSession session, ModelMap model) {
 		shopDAO.updateColumn("status", 1,new Integer(request.getParameter("id")));
-		session.setAttribute("shopList", null);
-		session.setAttribute("isFirstVisit", true);
+		if (session.getAttribute("searchParam")!=null)
+			session.setAttribute("shopList", shopDAO.search((SearchParameters)session.getAttribute("searchParam")));
 		return "redirect:search";
 		
 	}
 	@RequestMapping(value="/deleteshop", method = {RequestMethod.GET})
 	public String deleteShop(HttpServletRequest request, HttpSession session, ModelMap model) {
 		shopDAO.delete(new Integer(request.getParameter("id")));
-		session.setAttribute("shopList", null);
-		session.setAttribute("isFirstVisit", true);
+		if (session.getAttribute("searchParam")!=null)
+			session.setAttribute("shopList", shopDAO.search((SearchParameters)session.getAttribute("searchParam")));
 		return "redirect:search";
 		
 	}
@@ -219,9 +224,7 @@ public class HomeController implements Controller {
 	public String checkShopsGet(HttpServletRequest request, HttpSession session, ModelMap model) {
 		
 		List<Shop> shopList=shopDAO.findByStatus(2);
-		model.addAttribute("shopList", shopList);
-		session.setAttribute("shopList", null);
-		session.setAttribute("isFirstVisit", true);
+		model.addAttribute("shopList2", shopList);
 		return "check_shops";
 	}
 	@RequestMapping(value="/updateshop", method = {RequestMethod.GET})
@@ -230,11 +233,9 @@ public class HomeController implements Controller {
 		System.out.println("----------------------SHOPID IN UPDATESHOPGET: "+shop.getId());
 		String msg = request.getParameter("msg");
 		model.addAttribute("updateShopForm", shop);
-		model.addAttribute("specList", SpecList);
+		model.addAttribute("specList", specService.getSpecList());
 		model.addAttribute("msg", msg);
 		session.setAttribute("changeShopId", shop.getId());
-		session.setAttribute("shopList", null);
-		session.setAttribute("isFirstVisit", true);
 		return "update_shop";
 	}
 	@RequestMapping(value="/updateshop", method = {RequestMethod.POST})
@@ -255,6 +256,8 @@ public class HomeController implements Controller {
 		shopDAO.updateColumn("spec", shop.getSpec(), id.intValue());
 		shopDAO.updateColumn("lat", shop.getLat(), id.intValue());
 		shopDAO.updateColumn("lng", shop.getLng(), id.intValue());
+		if (session.getAttribute("searchParam")!=null)
+			session.setAttribute("shopList", shopDAO.search((SearchParameters)session.getAttribute("searchParam")));
 		return "redirect:/search";
 	}
 	@RequestMapping(value="/checkshop", method={RequestMethod.GET})
@@ -296,10 +299,7 @@ public class HomeController implements Controller {
 	
 	@RequestMapping(value="/currentloc", method = {RequestMethod.GET})
 	public String currentLocGet(HttpServletRequest request, HttpSession session, ModelMap model) {
-		session.setAttribute("isFirstVisit", true);
-		session.setAttribute("shopList", null);
-		return "current_loc";
-		
+		return "current_loc";	
 	}
 	public Class<? extends Annotation> annotationType() {
 		// TODO Auto-generated method stub
