@@ -18,31 +18,17 @@
 	</ul>
 	<img src="<c:url value='/resources/images/zelshop.png'/>" class="logo"/>
 
+	<c:if test="${not empty msg}">
+			<div class="error">Неправильный логин или пароль</div>
+	</c:if>
+
 	<div class="login-box">
-
-		<h2>Вход в систему</h2>
-
-		<c:if test="${not empty msg}">
-			<div class="error">Неудачная попытка входа</div>
-		</c:if>
 
 		<form:form commandName="loginForm"
 		  action="login" method="post">
-
-		  <table>
-			<tr>
-				<td>Имя:</td>
-				<td><form:input path="username" type='text'/></td>
-			</tr>
-			<tr>
-				<td>Пароль:</td>
-				<td><form:input path="password" type='password' /></td>
-			</tr>
-			<tr>
-				<td colspan='2'><input name="submit" type="submit"
-					value="Войти" /></td>
-			</tr>
-		  </table>
+		<label class="login-label" for="username">Логин<br></label> <form:input path="username" type='text' class="login-input"/><br>
+		<label class="login-label" for="password">Пароль<br></label> <form:input path="password" type='password' class="login-input"/><br>
+		<input name="submit" type="submit" value="Войти" class="login-button"/>
 		</form:form>
 	</div>
 	
