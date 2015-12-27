@@ -59,7 +59,6 @@ ri a:hover {
 	width: 300px;
 	padding: 20px 0px;
 	margin: 0px auto;
-	background: #FFFFFF;
 	border: 1px solid grey;
 }
 .login-input{
@@ -80,6 +79,14 @@ ri a:hover {
 .login-button{
 	padding: 2px 10px;
 }
+
+.update-shop-box{
+	text-align: left;
+	width: 500px;
+	margin: 0px auto;
+	border: 1px solid grey;
+} 
+
 .error {
 	padding: 5px;
 	text-align: center;
