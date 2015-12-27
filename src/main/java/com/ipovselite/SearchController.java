@@ -54,7 +54,6 @@ public class SearchController {
 			}
 		return "search_result1";		
 	}
-	
 	@RequestMapping(method = {RequestMethod.POST})
 	public String searchPost(@ModelAttribute("searchForm") SearchParameters searchParam, Map<String,Object> model,HttpSession session) {
 		if (searchParam!=null) {
