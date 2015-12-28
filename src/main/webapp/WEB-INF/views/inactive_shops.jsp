@@ -32,7 +32,7 @@
 <img src="<c:url value='/resources/images/zelshop.png'/>" class="logo"/>
 <h2>Неактивные магазины</h2>
 <div class="shops">
-                <c:forEach var="shop" items="${shopList}" varStatus="status">
+                <c:forEach var="shop" items="${shopList1}" varStatus="status">
                 
                 
                 <div class = "shop">${shop.name}<br>
