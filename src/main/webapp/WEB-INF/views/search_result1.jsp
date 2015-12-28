@@ -91,7 +91,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 		<li><a href="inactiveshops">Неактивные магазины</a></li>
 		</c:if>
 	</ul>
-	<ul><ri><a href="currentloc">Ваше местоположение</a></ri></ul>	
+	<div class="location-block"><a href="currentloc" class="location"><img src="<c:url value='/resources/images/aim.jpg'/>" class="loc-image">Ваше местоположение</a></div>
 	<img src="<c:url value='/resources/images/zelshop.png'/>" class="logo"/>
     <div align="center">
         <form:form action="search" method="post" commandName="searchForm">

@@ -49,6 +49,23 @@ ri a:hover {
     background-color: #009b00;
 }
 
+.loc-image{
+	height: 20px;
+	position: absolute;
+	padding: 0px;
+	right: 168px;
+}
+
+.location-block{
+	text-align: right;
+    position: absolute;
+    padding: 5px;
+    right: 10px;
+}
+
+.location{
+    color: black;
+}
 
 .login-form{
 	margin: 4px 11px;
