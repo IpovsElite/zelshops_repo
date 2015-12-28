@@ -78,6 +78,6 @@ google.maps.event.addDomListener(window, 'load', initialize);
 		<span class="ul-li"><a href="search">На главную</a></span>
 	</ul>
 <img src="<c:url value='/resources/images/zelshop.png'/>" class="logo"/>
-<div id="googleMap" style="width:500px;height:380px;"></div>
+<div id="googleMap" style="width:100%;height:380px;"></div>
 </body>
 </html>
