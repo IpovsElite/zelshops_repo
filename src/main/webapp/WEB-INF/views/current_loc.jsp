@@ -63,19 +63,19 @@ google.maps.event.addDomListener(window, 'load', initialize);
 </head>
 <body>
 <ul>
-		<ri>
+		<span class="ul-ri">
 			<c:if test="${empty currentUser}">
 			<a href="login">Вход</a>
 			</c:if>
-		</ri>
+		</span>
 		<c:if test="${not empty currentUser}">
 		
 		
-		<ri><a href="logout">Выход</a></ri>
-		<ri><t>${currentAccess}</t></ri>
-		<ri><t>${currentUser.username}</t></ri>
+		<span class="ul-ri"><a href="logout">Выход</a></span>
+		<span class="ul-ri"><t>${currentAccess}</t></span>
+		<span class="ul-ri"><t>${currentUser.username}</t></span>
 		</c:if>
-		<li><a href="search">На главную</a></li>
+		<span class="ul-li"><a href="search">На главную</a></span>
 	</ul>
 <img src="<c:url value='/resources/images/zelshop.png'/>" class="logo"/>
 <div id="googleMap" style="width:500px;height:380px;"></div>

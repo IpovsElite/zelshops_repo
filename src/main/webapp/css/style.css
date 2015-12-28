@@ -13,20 +13,20 @@ ul {
     background-color: #111;
 }
 
-li {
+.ul-li {
     float: left;
 }
-ri {
+.ul-ri {
 	float: right;
 }
-ri t {
+.ul-ri t {
 	display: inline-block;
     color: white;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
 }
-li a {
+.ul-li a {
    display: inline-block;
     color: white;
     text-align: center;
@@ -34,7 +34,7 @@ li a {
     text-decoration: none;
 }
 
-ri a {
+.ul-ri a {
 	display: inline-block;
     color: white;
     text-align: center;
@@ -42,10 +42,10 @@ ri a {
     text-decoration: none;
 }
 
-li a:hover {
+.ul-li a:hover {
     background-color: #009b00;
 }
-ri a:hover {
+.ul-ri a:hover {
     background-color: #009b00;
 }
 
@@ -154,6 +154,7 @@ ri a:hover {
 	position: relative;
 	width: 60%;
 	height: 25px;
+	//margin: 0 0 20%;
 }
 
 .shops{

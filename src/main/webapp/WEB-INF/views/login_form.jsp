@@ -14,7 +14,7 @@
 </head>
 <body>
 	<ul>
-		<li><a href="search">На главную</a></li>
+		<span class="ul-li"><a href="search">На главную</a></span>
 	</ul>
 	<img src="<c:url value='/resources/images/zelshop.png'/>" class="logo"/>
 

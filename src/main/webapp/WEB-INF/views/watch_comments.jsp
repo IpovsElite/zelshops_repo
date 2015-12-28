@@ -25,15 +25,15 @@
 		<c:if test="${not empty currentUser}">
 		
 		
-		<ri><a href="logout">Выход</a></ri>
-		<ri><t>${currentAccess}</t></ri>
-		<ri><t>${currentUser.username}</t></ri>
+		<span class="ul-ri"><a href="logout">Выход</a></span>
+		<span class="ul-ri"><t>${currentAccess}</t></span>
+		<span class="ul-ri"><t>${currentUser.username}</t></span>
 		</c:if>
 		<c:if test="${currentAccess == 'Администратор' and not empty currentUser }">
-		<li><a href="addshop">Добавить магазин</a></li>
-		<li><a href="newshops">Новые магазины</a></li>
-		<li><a href="checkshops">Магазины, требующие проверки</a></li>
-		<li><a href="inactiveshops">Неактивные магазины</a></li>
+		<span class="ul-li"><a href="addshop">Добавить магазин</a></span>
+		<span class="ul-li"><a href="newshops">Новые магазины</a></span>
+		<span class="ul-li"><a href="checkshops">Магазины, требующие проверки</a></span>
+		<span class="ul-li"><a href="inactiveshops">Неактивные магазины</a></span>
 		</c:if>
 	</ul>
 	
