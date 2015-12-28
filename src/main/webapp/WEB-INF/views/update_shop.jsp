@@ -15,22 +15,22 @@
 </head>
 <body>
 	<ul>
-		<ri>
+		<span class="ul-ri">
 			<c:if test="${empty currentUser}">
 			<a href="login">Вход</a>
 			</c:if>
-		</ri>
+		</span>
 		<c:if test="${not empty currentUser}">
 		
 		
-		<ri><a href="logout">Выход</a></ri>
-		<ri><t>${currentAccess}</t></ri>
-		<ri><t>${currentUser.username}</t></ri>
+		<span class="ul-ri"><a href="logout">Выход</a></span>
+		<span class="ul-ri"><t>${currentAccess}</t></span>
+		<span class="ul-ri"><t>${currentUser.username}</t></span>
 		</c:if>
-		<li><a href="search">На главную</a></li>
+		<span class="ul-li"><a href="search">На главную</a></span>
 	</ul>
 	<img src="<c:url value='/resources/images/zelshop.png'/>" class="logo"/>
-	<div class="login-box">
+	<div class="update-shop-box">
 
 		<h2>Изменение магазина</h2>
 
@@ -40,41 +40,14 @@
 
 		<form:form commandName="updateShopForm"
 		  action="updateshop" method="post">
-
-		  <table>
-			<tr>
-				<td>Название:</td>
-				<td><form:input path="name" type='text'/></td>
-			</tr>
-			<tr>
-				<td>Сайт:</td>
-				<td><form:input path="site" type='text'/></td>
-			</tr>
-			<tr>
-				<td>Адрес:</td>
-				<td><form:input path="address" type='text'/></td>
-			</tr>
-			<tr>
-				<td>Телефон:</td>
-				<td><form:input path="telephone" type='text'/></td>
-			</tr>
-			<tr>
-				<td>Сфера:</td>
-				<td><form:select path="spec" items="${specList}" /></td>
-			</tr>
-			<tr>
-				<td>Широта(Lat):</td>
-				<td><form:input path="lat" type='text' /></td>
-			</tr>
-			<tr>
-				<td>Долгота(Lng):</td>
-				<td><form:input path="lng" type='text' /></td>
-			</tr>
-			<tr>
-				<td colspan='2'><input name="submit" type="submit"
-					value="Изменить" /></td>
-			</tr>
-		  </table>
+		<label for="name">Название:</label><form:input path="name" type='text'/><br>
+		<label for="">Сайт:</label> <form:input path="site" type='text'/><br>
+		<label for="">Адрес:</label> <form:input path="address" type='text'/><br>
+		<label for="">Телефон:</label> <form:input path="telephone" type='text'/><br>
+		<label for="">Сфера:</label> <form:select path="spec" items="${specList}" /><br>
+		<label for="">Широта:</label> <form:input path="lat" type='text' /><br>
+		<label for="">Долгота:</label> <form:input path="lng" type='text' /><br>
+		<input name="submit" type="submit" value="Изменить" /><br>
 		</form:form>
 	</div>
 </body>

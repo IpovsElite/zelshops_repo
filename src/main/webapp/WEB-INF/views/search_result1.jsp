@@ -72,26 +72,26 @@ google.maps.event.addDomListener(window, 'load', initialize);
 <body>
 	
 	<ul>
-		<ri>
+		<span class="ul-ri">
 			<c:if test="${empty currentUser}">
 			<a href="login">Вход</a>
 			</c:if>
-		</ri>
+		</span>
 		<c:if test="${not empty currentUser}">
 		
 		
-		<ri><a href="logout">Выход</a></ri>
-		<ri><t>${currentAccess}</t></ri>
-		<ri><t>${currentUser.username}</t></ri>
+		<span class="ul-ri"><a href="logout">Выход</a></span>
+		<span class="ul-ri"><t>${currentAccess}</t></span>
+		<span class="ul-ri"><t>${currentUser.username}</t></span>
 		</c:if>
 		<c:if test="${currentAccess == 'Администратор' and not empty currentUser }">
-		<li><a href="addshop">Добавить магазин</a></li>
-		<li><a href="newshops">Новые магазины</a></li>
-		<li><a href="checkshops">Магазины, требующие проверки</a></li>
-		<li><a href="inactiveshops">Неактивные магазины</a></li>
+		<span class="ul-li"><a href="addshop">Добавить магазин</a></span>
+		<span class="ul-li"><a href="newshops">Новые магазины</a></span>
+		<span class="ul-li"><a href="checkshops">Магазины, требующие проверки</a></span>
+		<span class="ul-li"><a href="inactiveshops">Неактивные магазины</a></span>
 		</c:if>
 	</ul>
-	<ul><ri><a href="currentloc">Ваше местоположение</a></ri></ul>	
+	<div class="location-block"><a href="currentloc" class="location"><img src="<c:url value='/resources/images/aim.jpg'/>" class="loc-image">Ваше местоположение</a></div>
 	<img src="<c:url value='/resources/images/zelshop.png'/>" class="logo"/>
     <div align="center">
         <form:form action="search" method="post" commandName="searchForm">
@@ -101,10 +101,8 @@ google.maps.event.addDomListener(window, 'load', initialize);
             	<input type="submit" value="" class="search-icon"/>
             	<form:input path="currentLat" type="hidden" id="curLat"/>
             	<form:input path="currentLng" type="hidden" id="curLng"/>
-            	<table><tr>
-            	  <td><b>Искать ближайшие</b></td>
-            	  <td><form:checkbox path="isGeoEnabled" value="false"/></td>
-            	</tr></table>     	
+            	<div class="geo-check"><form:input path="currentLng" type="hidden" id="curLng"/>
+				<b>Искать ближайшие</b> <form:checkbox path="isGeoEnabled" value="false"/></div> 	
             </div>
         </form:form>
     </div>
