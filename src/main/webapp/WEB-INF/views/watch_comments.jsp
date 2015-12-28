@@ -16,12 +16,12 @@
 </head>
 <body>
 <ul>	
-		<li><a href="search">На главную</a></li>
-		<ri>
+		<span class="ul-li"><a href="search">На главную</a></span>
+		<span class="ul-ri">
 			<c:if test="${empty currentUser}">
 			<a href="login">Вход</a>
 			</c:if>
-		</ri>
+		</span>
 		<c:if test="${not empty currentUser}">
 		
 		
