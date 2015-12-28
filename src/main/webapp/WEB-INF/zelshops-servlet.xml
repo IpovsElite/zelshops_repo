@@ -23,5 +23,6 @@
         </property>
     </bean>
     <bean id="specService" class="com.ipovselite.SpecLocal"/>
+    <bean id="shopValidator" class="com.ipovselite.ShopValidator"/>
  
 </beans>

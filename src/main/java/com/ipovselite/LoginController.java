@@ -12,8 +12,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class LoginController {
-	@Autowired
+	
 	private UserDAO userDAO;
+	
+	@Autowired
+	public LoginController(UserDAO userDAO) {
+		this.userDAO = userDAO;
+	}
 	@RequestMapping(value="/login", method = {RequestMethod.GET})
 	public String loginGet(HttpServletRequest request, HttpSession session, ModelMap model) {
 		User user = new User();
@@ -22,7 +27,6 @@ public class LoginController {
 		model.addAttribute("msg",msg);
 		return "login_form";	
 	}
-	
 	@RequestMapping(value="/login", method = {RequestMethod.POST})
 	public String loginPost(@ModelAttribute("loginForm") User user,Map<String,Object> model,HttpSession session) {
 		User currentUser=null;

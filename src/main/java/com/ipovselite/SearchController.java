@@ -1,5 +1,6 @@
 package com.ipovselite;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
@@ -14,12 +15,16 @@ import org.springframework.ui.ModelMap;
 @Controller
 @RequestMapping("/search")
 public class SearchController {
-	@Autowired
+	
 	private ShopDAO shopDAO;	
-	@Autowired
 	private ISpecService specService;
 	private static final Logger logger = Logger.getLogger(SearchController.class);
 	
+	@Autowired
+	public SearchController(ShopDAO shopDAO, ISpecService specService) {
+		this.shopDAO = shopDAO;
+		this.specService = specService;
+	}
 	@RequestMapping(method = {RequestMethod.GET})
 	public String searchGet(ModelMap model,HttpSession session) {
 		boolean isFirstVisit;
@@ -40,21 +45,32 @@ public class SearchController {
 		model.addAttribute("currentUser",session.getAttribute("currentUser"));
 		model.addAttribute("currentAccess",session.getAttribute("currentAccess"));
 		logger.debug("Added specList to the model.");
-		List<Shop> shopList=(List<Shop>)session.getAttribute("shopList");
+		Object shopListObj=session.getAttribute("shopList");
+		List<?> shopList_q=null;
+		List<Shop> shopList = new ArrayList<Shop>();
+		if (shopListObj instanceof List<?>) {
+		   shopList_q = (List<?>) shopListObj;
+		   if (shopList_q.size()>0) {
+			   for (int i=0;i<shopList_q.size();i++) {
+			   Object o = shopList_q.get(i);
+			   if (o instanceof Shop) {
+				   Shop s = (Shop)o;
+				   shopList.add(s);
+			   }
+		   }
+			   }
+		}
 		if (shopList!=null)
 			if (!shopList.isEmpty()) {
-				List<Shop> tempList=shopList;
-				model.addAttribute("shopList", tempList);
+				//List<Shop> tempList=shopList;
+				model.addAttribute("shopList", shopList);
 				logger.debug("Added shopList to the model.");
-				for (Shop s : tempList)
-					logger.debug("Name: "+s.getName());
 			}
 			else {
 				logger.error("shopList is empty!");
 			}
 		return "search_result1";		
 	}
-	
 	@RequestMapping(method = {RequestMethod.POST})
 	public String searchPost(@ModelAttribute("searchForm") SearchParameters searchParam, Map<String,Object> model,HttpSession session) {
 		if (searchParam!=null) {
