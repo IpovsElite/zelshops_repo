@@ -30,6 +30,11 @@ public class AdminController {
 	public String addShopGet(HttpServletRequest request, HttpSession session, ModelMap model) {
 		Shop shop = new Shop();
 		String msg = request.getParameter("msg");
+		if (msg!=null) {
+			Map<String, String> map = (Map<String, String>)session.getAttribute("errors");
+			model.addAttribute("errors", map);
+			session.removeAttribute("errors");
+		}
 		model.addAttribute("specList", specService.getSpecList());
 		model.addAttribute("msg", msg);
 		model.addAttribute("shopForm", shop);
@@ -39,7 +44,7 @@ public class AdminController {
 	public String addShopPost(@ModelAttribute("shopForm") Shop shop,Map<String,Object> model,HttpSession session) {
 		Map<String, String> errors = shopValidator.validate(shop);
 		if (!errors.isEmpty()) {
-			model.put("errors", errors);
+			session.setAttribute("errors", errors);
 			return "redirect:addshop?msg=fail";
 		}
 		shopDAO.addShop(shop);
