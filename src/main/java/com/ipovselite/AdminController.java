@@ -14,12 +14,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class AdminController {
-	@Autowired
+
 	private ShopDAO shopDAO;
-	@Autowired
 	private ISpecService specService;
+	private ShopValidator shopValidator;
 	private static final Logger logger = Logger.getLogger(AdminController.class);
 	
+	@Autowired
+	public AdminController(ShopDAO shopDAO, ISpecService specService, ShopValidator shopValidator) {
+		this.shopDAO = shopDAO;
+		this.specService = specService;
+		this.shopValidator = shopValidator;
+	}
 	@RequestMapping(value="/addshop", method = {RequestMethod.GET})
 	public String addShopGet(HttpServletRequest request, HttpSession session, ModelMap model) {
 		Shop shop = new Shop();
@@ -31,8 +37,11 @@ public class AdminController {
 	}
 	@RequestMapping(value="/addshop", method = {RequestMethod.POST})
 	public String addShopPost(@ModelAttribute("shopForm") Shop shop,Map<String,Object> model,HttpSession session) {
-		if (shop.getName().equals("") || shop.getSite().equals("") || shop.getSite().equals("") || shop.getSite().equals(""))
+		Map<String, String> errors = shopValidator.validate(shop);
+		if (!errors.isEmpty()) {
+			model.put("errors", errors);
 			return "redirect:addshop?msg=fail";
+		}
 		shopDAO.addShop(shop);
 		return "redirect:/search";
 	}

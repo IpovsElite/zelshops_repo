@@ -13,6 +13,21 @@ public class Shop {
 	private int voters;
 	private double lat;
 	private double lng;
+	
+	public Shop() {
+		id=0;
+		name="";
+		address="";
+		site="";
+		telephone="";
+		spec="";
+		status=0;
+		description="";
+		rating=0;
+		voters=0;
+		lat=0;
+		lng=0;
+	}
 	public int getId() {
 		return id;
 	}
