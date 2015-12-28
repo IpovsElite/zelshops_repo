@@ -101,10 +101,8 @@ google.maps.event.addDomListener(window, 'load', initialize);
             	<input type="submit" value="" class="search-icon"/>
             	<form:input path="currentLat" type="hidden" id="curLat"/>
             	<form:input path="currentLng" type="hidden" id="curLng"/>
-            	<table><tr>
-            	  <td><b>Искать ближайшие</b></td>
-            	  <td><form:checkbox path="isGeoEnabled" value="false"/></td>
-            	</tr></table>     	
+            	<div class="geo-check"><form:input path="currentLng" type="hidden" id="curLng"/>
+				<b>Искать ближайшие</b> <form:checkbox path="isGeoEnabled" value="false"/></div> 	
             </div>
         </form:form>
     </div>
