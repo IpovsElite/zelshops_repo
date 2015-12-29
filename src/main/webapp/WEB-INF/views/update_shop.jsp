@@ -30,24 +30,62 @@
 		<span class="ul-li"><a href="search">На главную</a></span>
 	</ul>
 	<img src="<c:url value='/resources/images/zelshop.png'/>" class="logo"/>
+		<c:if test="${not empty msg}"> 
+		<c:if test="${not empty errors['name'] || not empty errors['address'] || errors['site'] == 'Есть незаполненные поля' || errors['telephone'] == 'Есть незаполненные поля' }"> 
+		<div class="error">Есть незаполненные поля</div> 
+		</c:if> 
+		<c:if test="${errors['site'] == 'Неверный формат URL.'}"> 
+		<div class="error">${errors['site']}</div> 
+		</c:if> 
+		<c:if test="${errors['telephone'] == 'Неверный формат номера телефона.'}"> 
+		<div class="error">${errors['telephone']}</div> 
+		</c:if> 		
+		</c:if>
 	<div class="update-shop-box">
 
 		<h2>Изменение магазина</h2>
-
-		<c:if test="${not empty msg}">
-			<div class="error">Есть незаполненные поля</div>
-		</c:if>
-
-		<form:form commandName="updateShopForm"
+		<hr>
+			<form:form commandName="updateShopForm"
 		  action="updateshop" method="post">
-		<label for="name">Название:</label><form:input path="name" type='text'/><br>
-		<label for="">Сайт:</label> <form:input path="site" type='text'/><br>
-		<label for="">Адрес:</label> <form:input path="address" type='text'/><br>
-		<label for="">Телефон:</label> <form:input path="telephone" type='text'/><br>
-		<label for="">Сфера:</label> <form:select path="spec" items="${specList}" /><br>
-		<label for="">Широта:</label> <form:input path="lat" type='text' /><br>
-		<label for="">Долгота:</label> <form:input path="lng" type='text' /><br>
-		<input name="submit" type="submit" value="Изменить" /><br>
+		<table>
+			<tr>
+				<td>Название:</td>
+				<td><form:input path="name" type='text'/></td><td>
+				<c:if test="${not empty errors['name']}"> <img src="<c:url value='/resources/images/error.png'/>" height="15px"></c:if></td>
+			</tr>
+			<tr>
+				<td>Сайт:</td>
+				<td><form:input path="site" type='text'/></td>
+				<td><c:if test="${not empty errors['site']}"> <img src="<c:url value='/resources/images/error.png'/>" height="15px"></c:if>
+				</td>
+			</tr>
+			<tr>
+				<td>Адрес:</td>
+				<td colspan='2'><form:input path="address" type='text' /></td>
+			</tr>
+			<tr>
+				<td>Телефон:&nbsp;&nbsp;&nbsp;&nbsp;+7</td>
+				<td> <form:input path="telephone" type='text'/></td><td>
+				<c:if test="${not empty errors['telephone']}"> <img src="<c:url value='/resources/images/error.png'/>" height="15px"></c:if>
+				</td>
+			</tr>
+			<tr>
+				<td>Сфера:</td>
+				<td colspan='2'><form:select path="spec" items="${specList}" /></td>
+			</tr>	
+			<tr>
+				<td>Широта(Lat):</td>
+				<td colspan='2'><form:input path="lat" type='text' /></td>
+			</tr>
+			<tr>
+				<td>Долгота(Lng):</td>
+				<td colspan='2'><form:input path="lng" type='text' /></td>
+			</tr>
+			<tr>
+				<td colspan='2'><input name="submit" type="submit"
+					value="Добавить" /></td>
+			</tr>
+		  </table>
 		</form:form>
 	</div>
 </body>
