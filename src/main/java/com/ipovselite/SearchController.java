@@ -33,6 +33,7 @@ public class SearchController {
 			searchForm=new SearchParameters();
 		model.addAttribute("searchForm", searchForm);
 		model.addAttribute("specList", specService.getSpecList());
+		model.addAttribute("limits", Geotagging.limits);
 		if (session.getAttribute("isFirstVisit")==null )
 			isFirstVisit=true;
 		else {
