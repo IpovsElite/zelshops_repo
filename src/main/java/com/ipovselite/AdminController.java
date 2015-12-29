@@ -28,12 +28,15 @@ public class AdminController {
 	}
 	@RequestMapping(value="/addshop", method = {RequestMethod.GET})
 	public String addShopGet(HttpServletRequest request, HttpSession session, ModelMap model) {
-		Shop shop = new Shop();
+		Shop shop = (Shop)session.getAttribute("addShop");
+		if (shop == null)
+			shop = new Shop();
 		String msg = request.getParameter("msg");
 		if (msg!=null) {
 			Map<String, String> map = (Map<String, String>)session.getAttribute("errors");
 			model.addAttribute("errors", map);
 			session.removeAttribute("errors");
+			session.removeAttribute("addShop");
 		}
 		model.addAttribute("specList", specService.getSpecList());
 		model.addAttribute("msg", msg);
@@ -45,6 +48,7 @@ public class AdminController {
 		Map<String, String> errors = shopValidator.validate(shop);
 		if (!errors.isEmpty()) {
 			session.setAttribute("errors", errors);
+			session.setAttribute("addShop", shop);
 			return "redirect:addshop?msg=fail";
 		}
 		shopDAO.addShop(shop);
@@ -93,30 +97,50 @@ public class AdminController {
 	}
 	@RequestMapping(value="/updateshop", method = {RequestMethod.GET})
 	public String updateShopGet(HttpServletRequest request, HttpSession session, ModelMap model) {
-		Shop shop = shopDAO.get(new Integer(request.getParameter("id")));
 		String msg = request.getParameter("msg");
-		model.addAttribute("updateShopForm", shop);
+		Shop changeShop = (Shop)session.getAttribute("changeShop");
+		Shop oldShop = shopDAO.get(new Integer(request.getParameter("id")));
+		if (changeShop==null)
+			changeShop = oldShop;
+		if (msg!=null) {
+			Map<String, String> map = (Map<String, String>)session.getAttribute("errors");
+			model.addAttribute("errors", map);
+			session.removeAttribute("errors");
+			session.removeAttribute("changeShop");
+		}
+		changeShop.setTelephone(shopValidator.unformat(changeShop.getTelephone()));
+		model.addAttribute("updateShopForm", changeShop);
 		model.addAttribute("specList", specService.getSpecList());
 		model.addAttribute("msg", msg);
-		session.setAttribute("changeShopId", shop.getId());
+		//session.setAttribute("changeShopId", changeShop.getId());
+		session.setAttribute("oldShop", oldShop);
 		return "update_shop";
 	}
 	@RequestMapping(value="/updateshop", method = {RequestMethod.POST})
-	public String updateShopPost(@ModelAttribute("updateShopForm") Shop shop,Map<String,Object> model,HttpSession session) {
-		Integer id= (Integer)session.getAttribute("changeShopId");
-		if (shop.getName().equals("") || shop.getSite().equals("") || shop.getAddress().equals("") || shop.getTelephone().equals("") )
-			return "redirect:updateshop?id="+id.intValue()+"&msg=fail";
-		if (!shop.getName().equals(""))
-			shopDAO.updateColumn("name", shop.getName(),id.intValue());
-		if (!shop.getSite().equals("") )
-			shopDAO.updateColumn("site", shop.getSite(),id.intValue());
-		if (!shop.getAddress().equals("") )
-			shopDAO.updateColumn("address", shop.getAddress(), id.intValue());
-		if (!shop.getTelephone().equals("") )
-			shopDAO.updateColumn("telephone", shop.getTelephone(), id.intValue());
-		shopDAO.updateColumn("spec", shop.getSpec(), id.intValue());
-		shopDAO.updateColumn("lat", shop.getLat(), id.intValue());
-		shopDAO.updateColumn("lng", shop.getLng(), id.intValue());
+	public String updateShopPost(@ModelAttribute("updateShopForm") Shop changeShop,Map<String,Object> model,HttpSession session) {
+		//(Integer)session.getAttribute("changeShopId");
+		Shop oldShop = (Shop)session.getAttribute("oldShop");
+		int id = oldShop.getId();
+		Map<String, String> errors = shopValidator.validate(changeShop);
+		if (!errors.isEmpty()) {
+			session.setAttribute("errors", errors);
+			session.setAttribute("changeShop", changeShop);
+			return "redirect:updateshop?id=" + id + "&msg=fail";
+		}
+		if (!oldShop.getName().equals(changeShop.getName()))
+			shopDAO.updateColumn("name", changeShop.getName(),id);
+		if (!oldShop.getSite().equals(changeShop.getSite()))
+			shopDAO.updateColumn("site", changeShop.getSite(),id);
+		if (!oldShop.getAddress().equals(changeShop.getAddress()))
+			shopDAO.updateColumn("address", changeShop.getAddress(), id);
+		if (!oldShop.getTelephone().equals(changeShop.getTelephone()))
+			shopDAO.updateColumn("telephone", changeShop.getTelephone(), id);
+		if (!oldShop.getSpec().equals(changeShop.getSpec()))
+			shopDAO.updateColumn("spec", changeShop.getSpec(), id);
+		if (oldShop.getLat()!=changeShop.getLat())
+			shopDAO.updateColumn("lat", changeShop.getLat(), id);
+		if (oldShop.getLng()!=changeShop.getLng())
+			shopDAO.updateColumn("lng", changeShop.getLng(), id);
 		if (session.getAttribute("searchParam")!=null)
 			session.setAttribute("shopList", shopDAO.search((SearchParameters)session.getAttribute("searchParam")));
 		return "redirect:/search";

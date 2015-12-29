@@ -49,4 +49,18 @@ public class ShopValidator implements Validator<Shop> {
 		}
 		return new String(arr);
 	}
+	public String unformat(String formatted) {
+		if (validateTelephone(formatted)) {
+			char[] init = formatted.toCharArray();
+			char[] end = new char[formatted.length()-4];
+			end[0] = init[3];
+			end[1] = init[4];
+			end[2] = init[5];
+			for (int i=7; i<init.length;i++) {
+				end[i-4] = init[i];
+			}
+			return new String(end);
+		}
+		return formatted;
+	}
 }
