@@ -29,12 +29,7 @@
 		<span class="ul-li"><a href="search">На главную</a></span>
 	</ul>
 	<img src="<c:url value='/resources/images/zelshop.png'/>" class="logo"/>
-
-	<div class="login-box">
-
-		<h2>Добавление магазина</h2>
-
-		<c:if test="${not empty msg}"> 
+	<c:if test="${not empty msg}"> 
 		<c:if test="${not empty errors['name'] || not empty errors['address'] || errors['site'] == 'Есть незаполненные поля' || errors['telephone'] == 'Есть незаполненные поля' }"> 
 		<div class="error">Есть незаполненные поля</div> 
 		</c:if> 
@@ -46,7 +41,11 @@
 		</c:if> 
 		
 		</c:if>
+	<div class="update-shop-box">
 
+		<h2>Добавление магазина</h2>
+		<hr>
+		
 		<form:form commandName="shopForm"
 		  action="addshop" method="post">
 
@@ -61,7 +60,7 @@
 			</tr>
 			<tr>
 				<td>Адрес:</td>
-				<td><form:input path="address" type='text' /></td><td><img src="<c:url value='/resources/images/error.png'/>" height="15px"></td>
+				<td colspan='2'><form:input path="address" type='text' /></td>
 			</tr>
 			<tr>
 				<td>Телефон:</td>
@@ -69,11 +68,11 @@
 			</tr>
 			<tr>
 				<td>Сфера:</td>
-				<td><form:select path="spec" items="${specList}" /></td><td><img src="<c:url value='/resources/images/error.png'/>" height="15px"></td>
+				<td colspan='2'><form:select path="spec" items="${specList}" /></td>
 			</tr>
 			<tr>
 				<td>Описание:</td>
-				<td><form:input path="description" type='text'/></td><td><img src="<c:url value='/resources/images/error.png'/>" height="15px"></td>
+				<td colspan='2'><form:input path="description" type='text'/></td>
 			</tr>		
 			<tr>
 				<td>Широта(Lat):</td>

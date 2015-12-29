@@ -105,10 +105,22 @@ ul {
 
 .update-shop-box{
 	text-align: left;
-	width: 500px;
+	width: 300px;
 	margin: 0px auto;
+	padding: 5px;
 	border: 1px solid grey;
 } 
+
+.update-shop-box > h2
+{
+	text-align: center;
+}
+
+.update-shop-box input[type="submit"]
+{
+	margin-top: 5px;
+	display: block;
+}
 
 .error {
 	padding: 5px;
