@@ -109,9 +109,8 @@ google.maps.event.addDomListener(window, 'load', initialize);
     <div id="googleMap"></div>
       		<c:set var="first" value="${isFirstVisit}"/>
       		<c:if test="${!first}">
-            <h1>Результаты</h1>
             <c:if test="${empty shopList && !first}">
-            <h1>Ничего не найдено</h1>
+            <h2>Ничего не найдено</h2>
             </c:if>
             </c:if>
             	<div class="shops">
@@ -122,19 +121,19 @@ google.maps.event.addDomListener(window, 'load', initialize);
                 	<div class = "crop"><img src = "resources/images/5ka.jpg" class = "shop-image"></div>
                 	<div class = "info">
                 		<c:if test="${shop.site != 'нет'}">
-                		<strong>Cайт:</strong><a href="http://${shop.site}">${shop.site}</a><br>
+                		<strong>Cайт: </strong><a href="http://${shop.site}">${shop.site}</a><br>
                 		</c:if>
-						<strong>Адрес:</strong>${shop.address}<br>
+						<strong>Адрес: </strong>${shop.address}<br>
 						<c:if test="${shop.telephone != 'нет'}">
-						<strong>Телефон:</strong>${shop.telephone}<br>
+						<strong>Телефон: </strong>${shop.telephone}<br>
 						</c:if>
-						<strong>Сфера:</strong>${shop.spec}<br>
+						<strong>Сфера: </strong>${shop.spec}<br>
 						<c:if test="${currentAccess == 'Администратор' and not empty currentUser}">
 						<a href="updateshop?id=${shop.id}">Изменить</a>
 						<a href="deleteshop?id=${shop.id}">Удалить</a>
 						</c:if>
 						<c:if test="${empty currentUser}">
-						<a href="checkshop?id=${shop.id}">Информация не верна</a>
+						<a href="checkshop?id=${shop.id}">Информация неверна</a>
 						</c:if>
 					</div>	
                 	
