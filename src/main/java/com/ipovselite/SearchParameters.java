@@ -6,6 +6,7 @@ public class SearchParameters {
 	private double currentLat;
 	private double currentLng;
 	private boolean isGeoEnabled;
+	private int limit;
 	public String getPattern() {
 		return pattern;
 	}
@@ -35,5 +36,11 @@ public class SearchParameters {
 	}
 	public void setIsGeoEnabled(boolean isGeoEnabled) {
 		this.isGeoEnabled = isGeoEnabled;
+	}
+	public int getLimit() {
+		return limit;
+	}
+	public void setLimit(int limit) {
+		this.limit = limit;
 	}
 }

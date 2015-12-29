@@ -3,10 +3,12 @@ package zelshops;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.ui.ModelMap;
 
 import com.ipovselite.AdminController;
 import com.ipovselite.ISpecService;
@@ -22,29 +24,33 @@ public class AdminControllerTest extends TestCase {
 	AdminController adminController;
 	ShopDAO shopDAO;
 	ISpecService specService;
-	Map<String, Object> model;
+	Map<String, Object> map;
+	ModelMap model;
 	Map<String, String> errors;
 	ShopValidator shopValidator;
 	HttpSession session;
-	
+	HttpServletRequest request;
 	@Before
 	protected void setUp() {
 		shopDAO = mock(ShopDAO.class);
 		specService = new SpecLocal();
 		shopValidator = new ShopValidator();
 		adminController = new AdminController(shopDAO, specService, shopValidator);
-		model = new HashMap<String, Object>();
+		map = new HashMap<String, Object>();
+		model = new ModelMap();
 		errors = new HashMap<String, String>();
 		session = new FakeSession();
+		request = mock(HttpServletRequest.class);
 	}
 	@Test
 	public void testModelShouldDenyEmptyFields() {
 		//GIVEN
 		Shop shop = new Shop();
 		shop.setTelephone("4957777777");
-		
+		when(request.getParameter("msg")).thenReturn("fail");
 		//WHEN
-		adminController.addShopPost(shop, model, session);
+		adminController.addShopPost(shop, map, session);
+		adminController.addShopGet(request, session, model);
 		//THEN
 		errors = (HashMap<String, String>)model.get("errors");
 		assertEquals(errors.get("name"), "Поле не заполнено.");
@@ -59,10 +65,9 @@ public class AdminControllerTest extends TestCase {
 		shop.setName("magaz");
 		shop.setAddress("CoolStreet");
 		shop.setSite("xyz.ru");
-		
 		//WHEN
-		adminController.addShopPost(shop, model, session);
-		
+		adminController.addShopPost(shop, map, session);
+		adminController.addShopGet(request, session, model);
 		//THEN
 		errors = (HashMap<String, String>)model.get("errors");
 		assertEquals(errors, null);
@@ -75,10 +80,10 @@ public class AdminControllerTest extends TestCase {
 		shop.setName("magaz");
 		shop.setAddress("CoolStreet");
 		shop.setSite("xyz .ru");
-		
+		when(request.getParameter("msg")).thenReturn("fail");
 		//WHEN
-		adminController.addShopPost(shop, model, session);
-		
+		adminController.addShopPost(shop, map, session);
+		adminController.addShopGet(request, session, model);
 		//THEN
 		errors = (HashMap<String, String>)model.get("errors");
 		assertNotNull(errors);

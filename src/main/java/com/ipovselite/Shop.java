@@ -13,7 +13,7 @@ public class Shop {
 	private int voters;
 	private double lat;
 	private double lng;
-	
+	private int distance;
 	public Shop() {
 		id=0;
 		name="";
@@ -99,5 +99,11 @@ public class Shop {
 	}
 	public void setLng(double lng) {
 		this.lng = lng;
+	}
+	public int getDistance() {
+		return distance;
+	}
+	public void setDistance(int distance) {
+		this.distance = distance;
 	}
 }
