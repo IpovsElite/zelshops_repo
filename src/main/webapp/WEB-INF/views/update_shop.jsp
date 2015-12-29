@@ -72,11 +72,7 @@
 			<tr>
 				<td>Сфера:</td>
 				<td colspan='2'><form:select path="spec" items="${specList}" /></td>
-			</tr>
-			<tr>
-				<td>Описание:</td>
-				<td colspan='2'><form:input path="description" type='text'/></td>
-			</tr>		
+			</tr>	
 			<tr>
 				<td>Широта(Lat):</td>
 				<td colspan='2'><form:input path="lat" type='text' /></td>
