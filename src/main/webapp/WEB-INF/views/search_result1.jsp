@@ -128,6 +128,9 @@ google.maps.event.addDomListener(window, 'load', initialize);
 						<strong>Телефон: </strong>${shop.telephone}<br>
 						</c:if>
 						<strong>Сфера: </strong>${shop.spec}<br>
+						<c:if test="${isGeoEnabled}">
+						<strong>Удалённость: </strong>${shop.distance} м.<br>
+						</c:if>
 						<c:if test="${currentAccess == 'Администратор' and not empty currentUser}">
 						<a href="updateshop?id=${shop.id}">Изменить</a>
 						<a href="deleteshop?id=${shop.id}">Удалить</a>
