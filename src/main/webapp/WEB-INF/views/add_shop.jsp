@@ -38,9 +38,9 @@
 		</c:if> 
 		<c:if test="${errors['telephone'] == 'Неверный формат номера телефона.'}"> 
 		<div class="error">${errors['telephone']}</div> 
-		</c:if> 
-		
-		</c:if>
+		</c:if> 		
+	</c:if>
+	
 	<div class="update-shop-box">
 
 		<h2>Добавление магазина</h2>
@@ -52,19 +52,24 @@
 		  <table>
 			<tr>
 				<td>Название:</td>
-				<td><form:input path="name" type='text'/></td><td><img src="<c:url value='/resources/images/error.png'/>" height="15px"></td>
+				<td><form:input path="name" type='text'/></td><td>
+				<c:if test="${not empty errors['name']}"> <img src="<c:url value='/resources/images/error.png'/>" height="15px"></c:if></td>
 			</tr>
 			<tr>
 				<td>Сайт:</td>
-				<td><form:input path="site" type='text' /></td><td><img src="<c:url value='/resources/images/error.png'/>" height="15px"></td>
+				<td><form:input path="site" type='text'/></td>
+				<td><c:if test="${not empty errors['site']}"> <img src="<c:url value='/resources/images/error.png'/>" height="15px"></c:if>
+				</td>
 			</tr>
 			<tr>
 				<td>Адрес:</td>
 				<td colspan='2'><form:input path="address" type='text' /></td>
 			</tr>
 			<tr>
-				<td>Телефон:</td>
-				<td><form:input path="telephone" type='text' /></td><td><img src="<c:url value='/resources/images/error.png'/>" height="15px"></td>
+				<td>Телефон:&nbsp;&nbsp;&nbsp;&nbsp;+7</td>
+				<td> <form:input path="telephone" type='text'/></td><td>
+				<c:if test="${not empty errors['telephone']}"> <img src="<c:url value='/resources/images/error.png'/>" height="15px"></c:if>
+				</td>
 			</tr>
 			<tr>
 				<td>Сфера:</td>
@@ -76,11 +81,11 @@
 			</tr>		
 			<tr>
 				<td>Широта(Lat):</td>
-				<td><form:input path="lat" type='text' /></td><td><img src="<c:url value='/resources/images/error.png'/>" height="15px"></td>
+				<td colspan='2'><form:input path="lat" type='text' /></td>
 			</tr>
 			<tr>
 				<td>Долгота(Lng):</td>
-				<td><form:input path="lng" type='text' /></td><td><img src="<c:url value='/resources/images/error.png'/>" height="15px"></td>
+				<td colspan='2'><form:input path="lng" type='text' /></td>
 			</tr>
 			<tr>
 				<td colspan='2'><input name="submit" type="submit"

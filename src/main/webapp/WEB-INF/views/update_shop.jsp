@@ -30,8 +30,16 @@
 		<span class="ul-li"><a href="search">На главную</a></span>
 	</ul>
 	<img src="<c:url value='/resources/images/zelshop.png'/>" class="logo"/>
-		<c:if test="${not empty msg}">
-			<div class="error">Есть незаполненные поля</div>
+		<c:if test="${not empty msg}"> 
+		<c:if test="${not empty errors['name'] || not empty errors['address'] || errors['site'] == 'Есть незаполненные поля' || errors['telephone'] == 'Есть незаполненные поля' }"> 
+		<div class="error">Есть незаполненные поля</div> 
+		</c:if> 
+		<c:if test="${errors['site'] == 'Неверный формат URL.'}"> 
+		<div class="error">${errors['site']}</div> 
+		</c:if> 
+		<c:if test="${errors['telephone'] == 'Неверный формат номера телефона.'}"> 
+		<div class="error">${errors['telephone']}</div> 
+		</c:if> 		
 		</c:if>
 	<div class="update-shop-box">
 
@@ -42,37 +50,44 @@
 		<table>
 			<tr>
 				<td>Название:</td>
-				<td><form:input path="name" type='text'/></td><td><img src="<c:url value='/resources/images/error.png'/>" height="15px"></td>
+				<td><form:input path="name" type='text'/></td><td>
+				<c:if test="${not empty errors['name']}"> <img src="<c:url value='/resources/images/error.png'/>" height="15px"></c:if></td>
 			</tr>
 			<tr>
 				<td>Сайт:</td>
-				<td><form:input path="site" type='text' /></td><td><img src="<c:url value='/resources/images/error.png'/>" height="15px"></td>
+				<td><form:input path="site" type='text'/></td>
+				<td><c:if test="${not empty errors['site']}"> <img src="<c:url value='/resources/images/error.png'/>" height="15px"></c:if>
+				</td>
 			</tr>
 			<tr>
 				<td>Адрес:</td>
 				<td colspan='2'><form:input path="address" type='text' /></td>
 			</tr>
 			<tr>
-				<td>Телефон:</td>
-				<td><form:input path="telephone" type='text' /></td><td><img src="<c:url value='/resources/images/error.png'/>" height="15px"></td>
+				<td>Телефон:&nbsp;&nbsp;&nbsp;&nbsp;+7</td>
+				<td> <form:input path="telephone" type='text'/></td><td>
+				<c:if test="${not empty errors['telephone']}"> <img src="<c:url value='/resources/images/error.png'/>" height="15px"></c:if>
+				</td>
 			</tr>
 			<tr>
 				<td>Сфера:</td>
-				<td colspan='2'><form:select path="spec" items="${specList}" /></td></tr>
+				<td colspan='2'><form:select path="spec" items="${specList}" /></td>
+			</tr>
 			<tr>
 				<td>Описание:</td>
 				<td colspan='2'><form:input path="description" type='text'/></td>
 			</tr>		
 			<tr>
 				<td>Широта(Lat):</td>
-				<td><form:input path="lat" type='text' /></td><td><img src="<c:url value='/resources/images/error.png'/>" height="15px"></td>
+				<td colspan='2'><form:input path="lat" type='text' /></td>
 			</tr>
 			<tr>
 				<td>Долгота(Lng):</td>
-				<td><form:input path="lng" type='text' /></td><td><img src="<c:url value='/resources/images/error.png'/>" height="15px"></td>
+				<td colspan='2'><form:input path="lng" type='text' /></td>
 			</tr>
 			<tr>
-				<td colspan='2'><input name="submit" type="submit"	value="Добавить" /></td>
+				<td colspan='2'><input name="submit" type="submit"
+					value="Добавить" /></td>
 			</tr>
 		  </table>
 		</form:form>
